@@ -13,31 +13,35 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
-@Data
-@Document(collection = "users")
+ 
+@Data   //@Data annotation use to generates getters and setters for all fields.
+@Document(collection = "users")  //@Document annotation use to set the collection name that will be used by the model. If the collection doesn’t exist, MongoDB will create it.
+
 public class User {
-
-	@Id
+	
+	@Id  // Specify the MongoDB document’s primary key _id using the @Id annotation
 	private String id;
-
-	@NotBlank
-	@Size(max = 20)
+	 
+	@NotBlank //Validates that the property is not null or whitespace. But, it can be applied only to text values.	 
+	@Size(max = 20) //Indicates that the property should have a minimum of two characters and maximum is given by max attribute. 
 	private String firstname;
-
-	@NotBlank
-	@Size(max = 20)
+	 
+	@NotBlank //Validates that the property is not null or whitespace. But, it can be applied only to text values.
+	@Size(max = 20) //Indicates that the property should have a minimum of two characters and maximum is given by max attribute. 
 	private String lastname;
 
-	@NotBlank
-	@Size(max = 50)
+	 
+	@NotBlank  //Validates that the property is not null or whitespace. But, it can be applied only to text values.
+	@Size(max = 50) //Indicates that the property should have a minimum of two characters and maximum is given by max attribute. 
 	@Email
 	private String email;
 
-	@NotBlank
-	@Size(max = 120)
+	 
+	@NotBlank //Validates that the property is not null or whitespace. But, it can be applied only to text values.  
+	@Size(max = 120) //Indicates that the property should have a minimum of two characters and maximum is given by max attribute. 
 	private String password;
 
-	@DBRef
+	@DBRef   //provides relationships mapping of MongoDB domain model objects
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
