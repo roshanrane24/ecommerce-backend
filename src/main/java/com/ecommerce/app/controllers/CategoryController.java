@@ -22,9 +22,7 @@ public class CategoryController{
 	
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllCategory(){
-		
 		List<Category> categoryList = categoryRepository.findAll();
-		
 		return ResponseEntity.ok(categoryList);	
 	}
 }
