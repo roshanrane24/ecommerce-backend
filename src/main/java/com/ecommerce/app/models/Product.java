@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Data;
 
@@ -32,8 +33,9 @@ public class Product {
 	private Integer stock= 0;   //initially product stock is 0. 
 	@NotBlank
 	private String subCategoryName;
+	@Field(value = "additional_details")
 	@NotBlank
-	private Map<String,String> additional_details;
+	private Map<String,String> additionalDetails;
 	@NotBlank
 	private String image;
 }

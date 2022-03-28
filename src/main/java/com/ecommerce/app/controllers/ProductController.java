@@ -29,7 +29,6 @@ public class ProductController {
         try(Stream<LatestProductsRequest> stream = productRepository.getLatestProducts()) {
             products = stream.limit(7).collect(Collectors.toList());
         }
-        System.out.println(products);
         return ResponseEntity.ok(products);
     }
 
