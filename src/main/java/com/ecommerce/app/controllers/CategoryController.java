@@ -13,6 +13,7 @@ import com.ecommerce.app.repository.CategoryRepository;
 
 @RestController
 @RequestMapping("/api/categories")
+@CrossOrigin("http://localhost:3000")
 public class CategoryController{
 	
 	@Autowired
