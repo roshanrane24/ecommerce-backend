@@ -118,11 +118,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
 	
-	<build>
-    <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -132,7 +128,7 @@
                 <target>1.6</target>
             </configuration>
         </plugin>
-    </plugins>
-</build>
+					</plugins>
+	</build>
 
 </project>
