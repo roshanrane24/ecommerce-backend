@@ -30,7 +30,9 @@ public class Product {
 	@CreatedDate
 	private Instant product_added_date;
 	@NotBlank
-	private Integer stock= 0;   //initially product stock is 0. 
+	private Integer stock= 0;   //initially product stock is 0.
+	@NotBlank
+	private Integer visits= 0;
 	@NotBlank
 	private String subCategoryName;
 	@Field(value = "additional_details")
