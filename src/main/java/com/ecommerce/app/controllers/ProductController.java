@@ -31,7 +31,7 @@ public class ProductController {
 	@Autowired
 	ProductRepository productRepository;
 	
-	@Value("${file.upload.location}")
+	@Value("${file.upload.location}/products")
 	private String location;
 	
     @GetMapping("/latest")
