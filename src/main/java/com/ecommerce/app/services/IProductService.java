@@ -13,6 +13,5 @@ public interface IProductService {
 	
 	Stream<ProductsRequest> getMostVisitedProducts();
 
-	Product saveToDb(Product product);
-
+	Product updateVisits(Product product);
 }

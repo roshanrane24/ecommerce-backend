@@ -57,8 +57,7 @@ public class ProductController {
     @GetMapping("/{productId}")
 	public ResponseEntity<?> getProductById(@PathVariable String productId) {
     	Product product = productService.getProductById(productId);
-    	product.setVisits(product.getVisits()+1);
-    	return new ResponseEntity<>(productService.saveToDb(product), HttpStatus.OK);
+    	return new ResponseEntity<>(productService.updateVisits(product), HttpStatus.OK);
 	}
     
   //http://localhost:8080/api/products/image/1

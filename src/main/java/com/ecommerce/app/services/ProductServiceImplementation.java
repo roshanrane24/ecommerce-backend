@@ -34,7 +34,8 @@ public class ProductServiceImplementation implements IProductService {
 	}
 
 	@Override
-	public Product saveToDb(Product product) {
+	public Product updateVisits(Product product) {
+		product.setVisits(product.getVisits()+1);
 		return productRepository.save(product);
 	}
 
