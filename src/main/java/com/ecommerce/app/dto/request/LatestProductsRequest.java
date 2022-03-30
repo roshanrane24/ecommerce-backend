@@ -1,4 +1,4 @@
-package com.ecommerce.app.payload.request;
+package com.ecommerce.app.dto.request;
 
 import lombok.Value;
 

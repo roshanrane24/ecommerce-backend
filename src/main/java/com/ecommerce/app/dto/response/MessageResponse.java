@@ -1,4 +1,4 @@
-package com.ecommerce.app.payload.response;
+package com.ecommerce.app.dto.response;
 
 import lombok.Data;
 

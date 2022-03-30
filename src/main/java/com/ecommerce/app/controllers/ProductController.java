@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.app.dto.request.LatestProductsRequest;
 import com.ecommerce.app.models.Product;
-import com.ecommerce.app.payload.request.LatestProductsRequest;
 import com.ecommerce.app.repository.ProductRepository;
 
 @RestController

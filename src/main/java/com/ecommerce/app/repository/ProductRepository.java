@@ -6,8 +6,8 @@ import java.util.stream.Stream;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import com.ecommerce.app.dto.request.LatestProductsRequest;
 import com.ecommerce.app.models.Product;
-import com.ecommerce.app.payload.request.LatestProductsRequest;
 
 public interface ProductRepository extends MongoRepository<Product,String>{
 	

@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.app.dto.request.LoginRequest;
+import com.ecommerce.app.dto.request.SignupRequest;
+import com.ecommerce.app.dto.response.JwtResponse;
+import com.ecommerce.app.dto.response.MessageResponse;
 import com.ecommerce.app.models.ERole;
 import com.ecommerce.app.models.Role;
 import com.ecommerce.app.models.User;
-import com.ecommerce.app.payload.request.LoginRequest;
-import com.ecommerce.app.payload.request.SignupRequest;
-import com.ecommerce.app.payload.response.JwtResponse;
-import com.ecommerce.app.payload.response.MessageResponse;
 import com.ecommerce.app.repository.RoleRepository;
 import com.ecommerce.app.repository.UserRepository;
 import com.ecommerce.app.security.jwt.JwtUtils;
