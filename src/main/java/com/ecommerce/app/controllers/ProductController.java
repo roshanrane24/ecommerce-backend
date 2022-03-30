@@ -25,7 +25,7 @@ import com.ecommerce.app.services.IProductService;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public class ProductController {
 	
 	@Autowired

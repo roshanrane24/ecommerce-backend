@@ -21,7 +21,7 @@ import com.ecommerce.app.services.ICategoryService;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public class CategoryController{
 	
 	@Autowired
