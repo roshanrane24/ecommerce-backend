@@ -14,4 +14,6 @@ public interface IProductService {
 	Stream<ProductsRequest> getMostVisitedProducts();
 
 	Product updateVisits(Product product);
+	
+	ProductsRequest getWishListProductById(String productId);
 }

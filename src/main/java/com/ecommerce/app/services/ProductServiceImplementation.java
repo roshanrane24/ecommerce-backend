@@ -39,4 +39,12 @@ public class ProductServiceImplementation implements IProductService {
 		return productRepository.save(product);
 	}
 
+	@Override
+	public ProductsRequest getWishListProductById(String productId) {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new RuntimeException("Product by ID " + productId + " not found!!!!"));
+		ProductsRequest productsRequest = new ProductsRequest(productId, product.getName(), product.getImage(), product.getPrice());
+		return productsRequest;
+	}
+
 }
