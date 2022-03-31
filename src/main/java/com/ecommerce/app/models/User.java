@@ -14,7 +14,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.ecommerce.app.dto.request.ProductsRequest;
+import com.ecommerce.app.dto.request.ProductDetailsRequest;
 import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
 
 import lombok.Data;
@@ -50,7 +50,7 @@ public class User {
 	@DBRef   //provides relationships mapping of MongoDB domain model objects
 	private Set<Role> roles = new HashSet<>();
 	
-	private List<ProductsRequest> wishList = new ArrayList<>();
+	private List<ProductDetailsRequest> wishList = new ArrayList<>();
 	
 	private List<ShoppingCartProductsRequest> shoppingCart = new ArrayList<>();
 	

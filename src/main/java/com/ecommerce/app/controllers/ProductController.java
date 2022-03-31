@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.app.dto.request.ProductsRequest;
+import com.ecommerce.app.dto.request.ProductDetailsRequest;
 import com.ecommerce.app.models.Product;
 import com.ecommerce.app.services.IProductService;
 
@@ -37,8 +37,8 @@ public class ProductController {
     @GetMapping("/latest")
     public ResponseEntity<?> getLatestProducts(){
 
-        List<ProductsRequest> products;
-        try(Stream<ProductsRequest> stream = productService.getLatestProducts()) {
+        List<ProductDetailsRequest> products;
+        try(Stream<ProductDetailsRequest> stream = productService.getLatestProducts()) {
             products = stream.limit(7).collect(Collectors.toList());
         }
         return ResponseEntity.ok(products);
@@ -47,8 +47,8 @@ public class ProductController {
     @GetMapping("/most-visited")
     public ResponseEntity<?> getMostVisitedProducts(){
 
-        List<ProductsRequest> products;
-        try(Stream<ProductsRequest> stream = productService.getMostVisitedProducts()) {
+        List<ProductDetailsRequest> products;
+        try(Stream<ProductDetailsRequest> stream = productService.getMostVisitedProducts()) {
             products = stream.limit(7).collect(Collectors.toList());
         }
         return ResponseEntity.ok(products);

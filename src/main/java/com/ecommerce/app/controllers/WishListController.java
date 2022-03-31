@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.app.dto.request.WishListRequest;
+import com.ecommerce.app.dto.request.ProductRequest;
 import com.ecommerce.app.dto.response.MessageResponse;
 import com.ecommerce.app.models.User;
 import com.ecommerce.app.security.jwt.JwtUtils;
@@ -43,7 +43,7 @@ public class WishListController {
 
 	// for adding to wishlist
 	@PostMapping("/add")
-	public ResponseEntity<?> addToWishList(@RequestBody WishListRequest wishList) {
+	public ResponseEntity<?> addToWishList(@RequestBody ProductRequest wishList) {
 		String email = jwtUtils.getUserNameFromJwtToken(wishList.getToken());
 		User user = userService.getByEmail(email);
 		if(user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
@@ -55,7 +55,7 @@ public class WishListController {
 	
 	// for adding to wishlist
 	@DeleteMapping("/remove")
-	public ResponseEntity<?> removeFromWishList(@RequestBody WishListRequest wishList) {
+	public ResponseEntity<?> removeFromWishList(@RequestBody ProductRequest wishList) {
 		String email = jwtUtils.getUserNameFromJwtToken(wishList.getToken());
 		User user = userService.getByEmail(email);
 		if(user.getWishList().isEmpty())
