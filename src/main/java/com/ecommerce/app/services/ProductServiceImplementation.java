@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ecommerce.app.dto.request.ProductsRequest;
+import com.ecommerce.app.dto.request.ProductDetailsRequest;
+import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
 import com.ecommerce.app.models.Product;
 import com.ecommerce.app.repository.ProductRepository;
 
@@ -24,12 +25,12 @@ public class ProductServiceImplementation implements IProductService {
 	}
 
 	@Override
-	public Stream<ProductsRequest> getLatestProducts() {
+	public Stream<ProductDetailsRequest> getLatestProducts() {
 		return productRepository.getLatestProducts();
 	}
 
 	@Override
-	public Stream<ProductsRequest> getMostVisitedProducts() {
+	public Stream<ProductDetailsRequest> getMostVisitedProducts() {
 		return productRepository.getMostVisitedProducts();
 	}
 
@@ -38,5 +39,21 @@ public class ProductServiceImplementation implements IProductService {
 		product.setVisits(product.getVisits()+1);
 		return productRepository.save(product);
 	}
+
+	@Override
+	public ProductDetailsRequest getWishListProductById(String productId) {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new RuntimeException("Product by ID " + productId + " not found!!!!"));
+		ProductDetailsRequest productsRequest = new ProductDetailsRequest(productId, product.getName(), product.getImage(), product.getPrice());
+		return productsRequest;
+	}
+	
+	@Override
+    public ShoppingCartProductsRequest getShoppingCartProductById(String productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product by ID " + productId + " not found!!!!"));
+        ShoppingCartProductsRequest productsRequest = new ShoppingCartProductsRequest(productId, product.getName(), product.getImage(), product.getPrice());
+        return productsRequest;
+    }
 
 }

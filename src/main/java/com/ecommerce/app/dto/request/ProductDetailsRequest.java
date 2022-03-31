@@ -3,7 +3,7 @@ package com.ecommerce.app.dto.request;
 import lombok.Value;
 
 @Value
-public class ProductsRequest {
+public class ProductDetailsRequest {
 
 	    String _id, name, image;
 	    Double price;

@@ -1,15 +1,21 @@
 package com.ecommerce.app.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.ecommerce.app.dto.request.ProductDetailsRequest;
+import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
 
 import lombok.Data;
 
@@ -43,7 +49,11 @@ public class User {
 
 	@DBRef   //provides relationships mapping of MongoDB domain model objects
 	private Set<Role> roles = new HashSet<>();
-
+	
+	private List<ProductDetailsRequest> wishList = new ArrayList<>();
+	
+	private List<ShoppingCartProductsRequest> shoppingCart = new ArrayList<>();
+	
 	public User() {
 	}
 
