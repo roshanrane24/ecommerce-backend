@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "e781e0bf-676b-43f7-af55-4a12031b85db",
+		"name": "Ecommerce-backend-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add to Wish List",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ4NzA5NTQ1LCJleHAiOjE2NDg3OTU5NDV9.s_xgeEsJMeB7VJ73s7GKSAJdda6UqOGR-HxgznnyW9W1jjnh64TyBN8P1GXwAjy_FrWEOaHff8KqqYgVC6aPJA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ4NzA5NTQ1LCJleHAiOjE2NDg3OTU5NDV9.s_xgeEsJMeB7VJ73s7GKSAJdda6UqOGR-HxgznnyW9W1jjnh64TyBN8P1GXwAjy_FrWEOaHff8KqqYgVC6aPJA\",\r\n    \"productId\":\"6241bb025d8d7f1ceb76e1fe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/wish-list/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"wish-list",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign In",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"roshan@gmail.com\",\r\n    \"password\":\"roshan1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Display Wish List",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ4NzA5NTQ1LCJleHAiOjE2NDg3OTU5NDV9.s_xgeEsJMeB7VJ73s7GKSAJdda6UqOGR-HxgznnyW9W1jjnh64TyBN8P1GXwAjy_FrWEOaHff8KqqYgVC6aPJA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/wish-list/eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ4NzA5NTQ1LCJleHAiOjE2NDg3OTU5NDV9.s_xgeEsJMeB7VJ73s7GKSAJdda6UqOGR-HxgznnyW9W1jjnh64TyBN8P1GXwAjy_FrWEOaHff8KqqYgVC6aPJA",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"wish-list",
+						"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ4NzA5NTQ1LCJleHAiOjE2NDg3OTU5NDV9.s_xgeEsJMeB7VJ73s7GKSAJdda6UqOGR-HxgznnyW9W1jjnh64TyBN8P1GXwAjy_FrWEOaHff8KqqYgVC6aPJA"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

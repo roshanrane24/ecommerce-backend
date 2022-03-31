@@ -66,9 +66,17 @@ public class ProductController {
   	public ResponseEntity<byte[]> getFile(@PathVariable String productId) throws IOException {
   		Product product = productService.getProductById(productId);
   		Path path = Paths.get(location, product.getImage());
+  		if(Files.exists(path)) {
+  			byte[] imageData = Files.readAllBytes(path);
+  			return ResponseEntity.ok()
+  				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + product.getImage() + "\"")
+  				.body(imageData);
+  		}
+  		
+  		path = Paths.get(location,"0.jpg");
   		byte[] imageData = Files.readAllBytes(path);
   		return ResponseEntity.ok()
-  				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + product.getImage() + "\"")
+  				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "0.jpg" + "\"")
   				.body(imageData);
   	}
 
