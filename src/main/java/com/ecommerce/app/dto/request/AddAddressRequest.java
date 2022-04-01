@@ -4,8 +4,6 @@ package com.ecommerce.app.dto.request;
 
 import javax.validation.constraints.NotBlank;
 
-import com.ecommerce.app.models.AddressType;
-
 import lombok.Data;
 
 @Data

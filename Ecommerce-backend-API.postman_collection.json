@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ec63058e-f615-404b-acf6-ac91a73c6cc0",
+		"_postman_id": "7de3a8a5-89a1-48ad-8d7b-2a191ed024bf",
 		"name": "Ecommerce-backend-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"roshan@gmail.com\",\r\n    \"password\":\"roshan1234\"\r\n}",
+					"raw": "{\r\n    \"email\":\"anantgeh@gg.com\",\r\n    \"password\":\"abcdef\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,13 +20,12 @@
 					}
 				},
 				"url": {
-					"raw": "https://ecommerce-app-cdac-acts.herokuapp.com/api/auth/signin",
-					"protocol": "https",
+					"raw": "http://localhost:8080/api/auth/signin",
+					"protocol": "http",
 					"host": [
-						"ecommerce-app-cdac-acts",
-						"herokuapp",
-						"com"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"api",
 						"auth",
@@ -39,11 +38,21 @@
 		{
 			"name": "Sign Up",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ4NzQ1MTYzLCJleHAiOjE2NDg4MzE1NjN9.Sm2AXoljHPvlb6RrSTbt-orzPTADC4KGVvKnLBiFFz2peVNM2YjTiUrbXOKpa2kEsL-OCGBmLGn5nmTQjqdLXw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstname\":\"Anant\",\n    \"lastname\":\"Gehi\",\n    \"email\":\"anantgeh@gmaial.com\",\n    \"password\":\"123456\"\n}",
+					"raw": "{\n    \"firstname\":\"Anant\",\n    \"lastname\":\"Gehi\",\n    \"email\":\"anantgeh@gg.com\",\n    \"password\":\"123456\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -51,13 +60,12 @@
 					}
 				},
 				"url": {
-					"raw": "https://ecommerce-app-cdac-acts.herokuapp.com/api/auth/signup",
-					"protocol": "https",
+					"raw": "http://localhost:8080/api/auth/signup",
+					"protocol": "http",
 					"host": [
-						"ecommerce-app-cdac-acts",
-						"herokuapp",
-						"com"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"api",
 						"auth",
@@ -356,6 +364,213 @@
 						"remove"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Display User Profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODgwNTcxNSwiZXhwIjoxNjQ4ODkyMTE1fQ.SlVcuZ0CER-2FDW_wtLwHuwwTOmajcXsXFskfdKaK87A-MogDjCmchOwFZNUrGT_iARp3Yeg2Qy6q9dgGk3Rkg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODgwNTcxNSwiZXhwIjoxNjQ4ODkyMTE1fQ.SlVcuZ0CER-2FDW_wtLwHuwwTOmajcXsXFskfdKaK87A-MogDjCmchOwFZNUrGT_iARp3Yeg2Qy6q9dgGk3Rkg\",\n    \"typeOfAddress\": \"HOME\",\n    \"country\" : \"INDIA\",\n    \"state\" : \"Rajasthan\",\n    \"fullName\" : \"Aman Gangwar\",\n    \"mobileNumber\" : 7068398252,\n    \"pincode\" : 302022,\n    \"line1\" : \"Sitapura\",\n    \"line2\" : \"\",\n    \"landmark\": \"Near Bank of India\",\n    \"townCity\": \"Jaipur\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user-details/display/eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODgyNTE0OCwiZXhwIjoxNjQ4OTExNTQ4fQ.vp1ZpkBjY9vjfoTACF-J6mlraqq3ZWxVyyW0G5hOwIScFuUoo8P8Rktar0-dUiwJhr0-FEc60hXyX7DcDdYDIw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-details",
+						"display",
+						"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODgyNTE0OCwiZXhwIjoxNjQ4OTExNTQ4fQ.vp1ZpkBjY9vjfoTACF-J6mlraqq3ZWxVyyW0G5hOwIScFuUoo8P8Rktar0-dUiwJhr0-FEc60hXyX7DcDdYDIw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Display Address",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODgwNTcxNSwiZXhwIjoxNjQ4ODkyMTE1fQ.SlVcuZ0CER-2FDW_wtLwHuwwTOmajcXsXFskfdKaK87A-MogDjCmchOwFZNUrGT_iARp3Yeg2Qy6q9dgGk3Rkg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user-details/address/eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZy5jb20iLCJpYXQiOjE2NDg4MjU5NDIsImV4cCI6MTY0ODkxMjM0Mn0.kPgnCwjVPCP3gC_MTW08dygP1rXWsgdzmkR4drWfsu55r4ig2pmu5cU1eHDoQIHans4FhSjUuyqFlulgtVLJ7g",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-details",
+						"address",
+						"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZy5jb20iLCJpYXQiOjE2NDg4MjU5NDIsImV4cCI6MTY0ODkxMjM0Mn0.kPgnCwjVPCP3gC_MTW08dygP1rXWsgdzmkR4drWfsu55r4ig2pmu5cU1eHDoQIHans4FhSjUuyqFlulgtVLJ7g"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Address",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODgwNTcxNSwiZXhwIjoxNjQ4ODkyMTE1fQ.SlVcuZ0CER-2FDW_wtLwHuwwTOmajcXsXFskfdKaK87A-MogDjCmchOwFZNUrGT_iARp3Yeg2Qy6q9dgGk3Rkg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZy5jb20iLCJpYXQiOjE2NDg4MjU5NDIsImV4cCI6MTY0ODkxMjM0Mn0.kPgnCwjVPCP3gC_MTW08dygP1rXWsgdzmkR4drWfsu55r4ig2pmu5cU1eHDoQIHans4FhSjUuyqFlulgtVLJ7g\",\n\"typeOfAddress\": \"HOME\",\n    \"country\" : \"INDIA\",\n    \"state\" : \"Rajasthan\",\n    \"fullName\" : \"Aman Gangwar\",\n    \"mobileNumber\" : 7068398252,\n    \"pincode\" : 302022,\n    \"line1\" : \"Sitapura\",\n    \"line2\" : \"Amravati\",\n    \"landmark\": \"Near Bank of India\",\n    \"townCity\": \"Jaipu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user-details/address/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-details",
+						"address",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Address",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZy5jb20iLCJpYXQiOjE2NDg4MjU5NDIsImV4cCI6MTY0ODkxMjM0Mn0.kPgnCwjVPCP3gC_MTW08dygP1rXWsgdzmkR4drWfsu55r4ig2pmu5cU1eHDoQIHans4FhSjUuyqFlulgtVLJ7g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZy5jb20iLCJpYXQiOjE2NDg4MjU5NDIsImV4cCI6MTY0ODkxMjM0Mn0.kPgnCwjVPCP3gC_MTW08dygP1rXWsgdzmkR4drWfsu55r4ig2pmu5cU1eHDoQIHans4FhSjUuyqFlulgtVLJ7g\",\n    \"addressId\":\"2090568637\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user-details/address/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-details",
+						"address",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Default Address",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZy5jb20iLCJpYXQiOjE2NDg4MjU5NDIsImV4cCI6MTY0ODkxMjM0Mn0.kPgnCwjVPCP3gC_MTW08dygP1rXWsgdzmkR4drWfsu55r4ig2pmu5cU1eHDoQIHans4FhSjUuyqFlulgtVLJ7g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZy5jb20iLCJpYXQiOjE2NDg4MjU5NDIsImV4cCI6MTY0ODkxMjM0Mn0.kPgnCwjVPCP3gC_MTW08dygP1rXWsgdzmkR4drWfsu55r4ig2pmu5cU1eHDoQIHans4FhSjUuyqFlulgtVLJ7g\",\n    \"addressId\":\"-49474727\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user-details/address/change-default",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-details",
+						"address",
+						"change-default"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User Details",
+			"request": {
+				"method": "POST",
+				"header": []
 			},
 			"response": []
 		}

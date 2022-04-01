@@ -3,7 +3,9 @@ package com.ecommerce.app.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.app.dto.request.AddAddressRequest;
 import com.ecommerce.app.dto.request.ChangeAddressRequest;
+import com.ecommerce.app.dto.request.UserDetailsUpdateRequest;
 import com.ecommerce.app.dto.response.MessageResponse;
 import com.ecommerce.app.models.Address;
 import com.ecommerce.app.models.AddressType;
@@ -21,7 +24,7 @@ import com.ecommerce.app.security.jwt.JwtUtils;
 import com.ecommerce.app.services.IUserService;
 
 @RestController
-@RequestMapping("/api/user-profile")
+@RequestMapping("/api/user-details")
 @CrossOrigin("*")
 public class UserController {
     
@@ -31,8 +34,11 @@ public class UserController {
     @Autowired
     IUserService userService;
     
+	@Autowired
+	PasswordEncoder encoder;
+    
     //Display Profile Details
-    @GetMapping("/displayprofile/{token}")
+    @GetMapping("/display/{token}")
    	public ResponseEntity<?> displayProfile(@PathVariable String token){
    	String email = jwtUtils.getUserNameFromJwtToken(token);
    	User user = userService.getByEmail(email);
@@ -48,6 +54,16 @@ public class UserController {
 	}
     
     //Edit Profile Details
+    @PostMapping("/edit")
+    public ResponseEntity<?> editUserDetails(@RequestBody UserDetailsUpdateRequest userDetails){
+    	String email = jwtUtils.getUserNameFromJwtToken(userDetails.getToken());
+    	User user = userService.getByEmail(email);
+    	user.setFirstname(userDetails.getFirstname()); 
+    	user.setLastname(userDetails.getLastname()); 
+    	user.setPassword(encoder.encode(userDetails.getPassword()));
+    	userService.saveUser(user);
+    	return ResponseEntity.ok(new MessageResponse("User details updated successfully"));
+    }
     
     //Add Address
     @PostMapping("/address/add")
@@ -55,30 +71,26 @@ public class UserController {
     	String email = jwtUtils.getUserNameFromJwtToken(addAddress.getToken());
 		User user = userService.getByEmail(email);
 		Address address = new Address(AddressType.valueOf(addAddress.getTypeOfAddress()), addAddress.getCountry(),addAddress.getState(),addAddress.getFullName(),addAddress.getMobileNumber(),addAddress.getPincode(),addAddress.getLine1(),addAddress.getLine2(),addAddress.getLandmark(),addAddress.getTownCity());
-	 
+		
+		if(user.getAddresses().containsKey(address.getId()))
+			return ResponseEntity.ok(new MessageResponse("Address already present"));
 		user.getAddresses().put(address.getId() ,address);
 		if(user.getDefaultAddress()== null)
 			user.setDefaultAddress(address);
-		
 		userService.saveUser(user);
-	 
-		return ResponseEntity.ok(new MessageResponse("Address added successfully ."));
+			return ResponseEntity.ok(new MessageResponse("Address added successfully"));
     }
     
     //Delete Address
-    @PostMapping("/address/delete")
+    @DeleteMapping("/address/delete")
     public ResponseEntity<?> deleteAddress(@RequestBody ChangeAddressRequest deleteAddress){
     	String email = jwtUtils.getUserNameFromJwtToken(deleteAddress.getToken());
-		User user = userService.getByEmail(email);
-		 
-		 
+		User user = userService.getByEmail(email);	 
 		if(user.getDefaultAddress().getId().equals(deleteAddress.getAddressId()))
 			return ResponseEntity.ok(new MessageResponse("Default Address can not be remove!! first change the Default Address then Delete"));
-		
 		user.getAddresses().remove(deleteAddress.getAddressId());
 		userService.saveUser(user);
-	 
-		return ResponseEntity.ok(new MessageResponse("Address removed successfully ."));
+			return ResponseEntity.ok(new MessageResponse("Address removed successfully"));
     }
     
     //Select Default Address
@@ -86,13 +98,12 @@ public class UserController {
     public ResponseEntity<?> changeDefaultAddress(@RequestBody ChangeAddressRequest changeAddress){
     	String email = jwtUtils.getUserNameFromJwtToken(changeAddress.getToken());
 		User user = userService.getByEmail(email);
-		 
 		if(!user.getAddresses().containsKey(changeAddress.getAddressId()))
 			return ResponseEntity.ok(new MessageResponse("Address not found."));
 		if(user.getDefaultAddress().getId().equals(changeAddress.getAddressId()))
-			return ResponseEntity.ok(new MessageResponse("Already Default address exist"));
+			return ResponseEntity.ok(new MessageResponse("This address is already set to default"));
 		user.setDefaultAddress(user.getAddresses().get(changeAddress.getAddressId()));
-		 userService.saveUser(user);
-		 return ResponseEntity.ok(new MessageResponse("Default Address changed successfully."));
+		userService.saveUser(user);
+		 	return ResponseEntity.ok(new MessageResponse("Default Address changed successfully"));
     }
 }
