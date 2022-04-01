@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ecommerce.app.dto.response.ProfileResponse;
 import com.ecommerce.app.models.User;
 import com.ecommerce.app.repository.UserRepository;
 @Service
@@ -26,6 +27,12 @@ public class UserServiceImplementation implements IUserService{
 	@Override
 	public User saveUser(User user) {
 		return userRepository.save(user);
+	}
+
+	@Override
+	public ProfileResponse getProfile(User user) {
+		 
+		return new ProfileResponse(user.getId(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPassword());
 	}
 
 }
