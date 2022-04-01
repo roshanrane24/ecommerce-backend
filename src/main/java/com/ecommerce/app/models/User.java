@@ -10,9 +10,9 @@ import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.UniqueElements;
+ 
 import org.springframework.data.annotation.Id;
+ 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -61,7 +61,8 @@ public class User {
 	@Field(value = "shopping_cart")
 	private List<ShoppingCartProductsRequest> shoppingCart = new ArrayList<>();
 	
-	private Map<String,Address> addresses = new HashMap<>();
+    
+	private Map<Integer, Address> addresses = new HashMap<>() ;
 	
 	@Field(value = "default_address")
 	private Address defaultAddress;

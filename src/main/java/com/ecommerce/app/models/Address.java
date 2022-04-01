@@ -4,14 +4,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
+ 
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Data;
 
 @Data
 public class Address {
-	@Id
-	private String id;
+    @Id
+	private Integer id;
+	
 	@Field(value = "type_address")
 	@NotBlank
 	private AddressType typeOfAddress;
@@ -58,6 +60,7 @@ public class Address {
 		this.line2 = line2;
 		this.landmark = landmark;
 		this.townCity = townCity;
+		this.id = this.hashCode();
 	}
 	
 }

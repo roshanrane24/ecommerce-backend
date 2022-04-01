@@ -10,6 +10,7 @@ import lombok.Data;
 
 @Data
 public class AddAddressRequest {
+ 
 	@NotBlank
 	private String token; 
 	@NotBlank
