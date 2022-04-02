@@ -1,11 +1,9 @@
 package com.ecommerce.app.dto.request;
 
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class ProductRequest {
-	
-String productId;
-String token;
-//String userId;
+
+	String productId;
 }
