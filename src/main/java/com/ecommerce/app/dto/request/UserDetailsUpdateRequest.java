@@ -9,9 +9,6 @@ import lombok.Data;
 public class UserDetailsUpdateRequest {
 	
 	@NotBlank
-	private String token; 
-
-	@NotBlank
 	@Size(min = 3, max = 20)
 	private String firstname;
 

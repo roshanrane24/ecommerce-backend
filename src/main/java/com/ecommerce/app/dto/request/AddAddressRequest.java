@@ -1,7 +1,5 @@
 package com.ecommerce.app.dto.request;
 
- 
-
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
@@ -9,8 +7,6 @@ import lombok.Data;
 @Data
 public class AddAddressRequest {
  
-	@NotBlank
-	private String token; 
 	@NotBlank
 	private String typeOfAddress;
 	@NotBlank

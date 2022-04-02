@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,41 +26,44 @@ public class WishListController {
 
 	@Autowired
 	private JwtUtils jwtUtils;
-	
+
 	@Autowired
 	private IUserService userService;
-	
+
 	@Autowired
 	private IProductService productService;
 
 	// for displaying wishlist
-	@GetMapping("/{token}")
-	public ResponseEntity<?> displayWishList(@PathVariable String token){
-	String email = jwtUtils.getUserNameFromJwtToken(token);
-	User user = userService.getByEmail(email);
-	return new ResponseEntity<>(user.getWishList(), HttpStatus.OK);
+	@GetMapping("/display")
+	public ResponseEntity<?> displayWishList(@RequestHeader String authorization) {
+		String token = jwtUtils.getTokenFromHeader(authorization);
+		String email = jwtUtils.getUserNameFromJwtToken(token);
+		User user = userService.getByEmail(email);
+		return new ResponseEntity<>(user.getWishList(), HttpStatus.OK);
 	}
 
 	// for adding to wishlist
 	@PostMapping("/add")
-	public ResponseEntity<?> addToWishList(@RequestBody ProductRequest wishList) {
-		String email = jwtUtils.getUserNameFromJwtToken(wishList.getToken());
+	public ResponseEntity<?> addToWishList(@RequestHeader String authorization, @RequestBody ProductRequest wishList) {
+		String token = jwtUtils.getTokenFromHeader(authorization);
+		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
-		if(user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
+		if (user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
 			return ResponseEntity.ok(new MessageResponse("Product already added to Wish List"));
 		user.getWishList().add(productService.getWishListProductById(wishList.getProductId()));
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Product added to wishlist successfully!"));
 	}
-	
+
 	// for adding to wishlist
 	@DeleteMapping("/remove")
-	public ResponseEntity<?> removeFromWishList(@RequestBody ProductRequest wishList) {
-		String email = jwtUtils.getUserNameFromJwtToken(wishList.getToken());
+	public ResponseEntity<?> removeFromWishList(@RequestHeader String authorization, @RequestBody ProductRequest wishList) {
+		String token = jwtUtils.getTokenFromHeader(authorization);
+		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
-		if(user.getWishList().isEmpty())
+		if (user.getWishList().isEmpty())
 			return ResponseEntity.ok(new MessageResponse("Wishlist is Empty"));
-		if(!user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
+		if (!user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
 			return ResponseEntity.ok(new MessageResponse("Product does not exist!"));
 		user.getWishList().remove(productService.getWishListProductById(wishList.getProductId()));
 		userService.saveUser(user);

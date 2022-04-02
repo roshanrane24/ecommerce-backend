@@ -5,23 +5,15 @@ import lombok.Data;
 @Data
 public class ProfileResponse {
 	 
-	private String id;
-	 
+	private String id;	 
 	  
 	private String firstname;
-	 
-	  
-	private String lastname;
-
-	 
+		  
+	private String lastname;	 
  
-	private String email;
-
-	 
+	private String email;	 
 	 
 	private String password;
-
-
 
 	public ProfileResponse(String id, String firstname, String lastname, String email, String password) {
 		super();
