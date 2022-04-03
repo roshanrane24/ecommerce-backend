@@ -189,7 +189,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"productId\":\"6241bb025d8d7f1ceb76e1fe\"\r\n}",
+					"raw": "\"6241bb025d8d7f1ceb76e1fe\"\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -584,6 +584,89 @@
 						"api",
 						"user-details",
 						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODk3MzI5NywiZXhwIjoxNjQ5MDU5Njk3fQ.TErKcz3qskFZnYCSQtoaqgTeiYp9mDjrpKEIG_p8ctQbEzWy5Pglfz-wWXjzXLjc0HBrDcByeL_3anOSb99u5w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"itemsList\": [],\n  \"deliveryAddress\": {}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/orders/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"orders",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Display Order History",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODk3MzI5NywiZXhwIjoxNjQ5MDU5Njk3fQ.TErKcz3qskFZnYCSQtoaqgTeiYp9mDjrpKEIG_p8ctQbEzWy5Pglfz-wWXjzXLjc0HBrDcByeL_3anOSb99u5w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\":\"Chindi\",\n    \"lastname\":\"Chor\",\n    \"password\":\"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/orders/display",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"orders",
+						"display"
 					]
 				}
 			},
