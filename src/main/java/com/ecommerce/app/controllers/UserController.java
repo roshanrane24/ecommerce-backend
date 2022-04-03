@@ -76,11 +76,11 @@ public class UserController {
 		String token = jwtUtils.getTokenFromHeader(authorization);
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
-		Address address = new Address(AddressType.valueOf(addAddress.getTypeOfAddress()), addAddress.getCountry(),
+		Address address = new Address(AddressType.valueOf(addAddress.getTypeOfAddress().toUpperCase()), addAddress.getCountry(),
 				addAddress.getState(), addAddress.getFullName(), addAddress.getMobileNumber(), addAddress.getPincode(),
 				addAddress.getLine1(), addAddress.getLine2(), addAddress.getLandmark(), addAddress.getTownCity());
 		if (user.getAddresses().containsKey(address.getId()))
-			return ResponseEntity.ok(new MessageResponse("Address already present"));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Address already present"));
 		user.getAddresses().put(address.getId(), address);
 		if (user.getDefaultAddress() == null)
 			user.setDefaultAddress(address);
@@ -96,9 +96,9 @@ public class UserController {
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
 		if (!user.getAddresses().containsKey(deleteAddress.getAddressId()))
-			return ResponseEntity.ok(new MessageResponse("Address not found."));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Address not found."));
 		if (user.getDefaultAddress().getId().equals(deleteAddress.getAddressId()))
-			return ResponseEntity.ok(new MessageResponse(
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(
 					"Default Address can not be remove!! first change the Default Address then Delete"));
 		user.getAddresses().remove(deleteAddress.getAddressId());
 		userService.saveUser(user);
@@ -113,9 +113,9 @@ public class UserController {
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
 		if (!user.getAddresses().containsKey(changeAddress.getAddressId()))
-			return ResponseEntity.ok(new MessageResponse("Address not found."));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Address not found."));
 		if (user.getDefaultAddress().getId().equals(changeAddress.getAddressId()))
-			return ResponseEntity.ok(new MessageResponse("This address is already set to default"));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("This address is already set to default"));
 		user.setDefaultAddress(user.getAddresses().get(changeAddress.getAddressId()));
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Default Address changed successfully"));

@@ -10,9 +10,8 @@ import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
- 
+
 import org.springframework.data.annotation.Id;
- 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -66,6 +65,10 @@ public class User {
 	
 	@Field(value = "default_address")
 	private Address defaultAddress;
+	
+	@DBRef
+	@Field(value = "order_history")
+	private Set<Order> orders = new HashSet<>();
 	
 	public User() {
 	}

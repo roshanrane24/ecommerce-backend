@@ -1,6 +1,7 @@
 package com.ecommerce.app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.app.dto.request.ProductRequest;
 import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
 import com.ecommerce.app.dto.response.MessageResponse;
+import com.ecommerce.app.models.Product;
 import com.ecommerce.app.models.User;
 import com.ecommerce.app.security.jwt.JwtUtils;
 import com.ecommerce.app.services.IProductService;
@@ -49,10 +51,14 @@ public class ShoppingCartController {
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
 		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId());
+		Product product = productService.getProductById(productRequest.getProductId());
 		if (user.getShoppingCart().contains(cartProduct)) {
 			ShoppingCartProductsRequest existingCartProduct = user.getShoppingCart()
 					.get(user.getShoppingCart().indexOf(cartProduct));
+			if (existingCartProduct.getQuantity() > product.getStock())
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cannot add quantity greater than stock available"));
 			existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
+			existingCartProduct.setSubTotal(existingCartProduct.getPrice()*existingCartProduct.getQuantity());
 //                return ResponseEntity.ok(new MessageResponse("Product added to Shopping Cart"));
 		} else
 			user.getShoppingCart().add(cartProduct);
@@ -70,9 +76,9 @@ public class ShoppingCartController {
 		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId());
 
 		if (user.getShoppingCart().isEmpty())
-			return ResponseEntity.ok(new MessageResponse("Shopping Cart is Empty"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Shopping Cart is Empty"));
 		if (!user.getShoppingCart().contains(cartProduct))
-			return ResponseEntity.ok(new MessageResponse("Product does not exist!"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Product does not exist!"));
 		ShoppingCartProductsRequest existingCartProduct = user.getShoppingCart()
 				.get(user.getShoppingCart().indexOf(cartProduct));
 		if (existingCartProduct.getQuantity() > 1)

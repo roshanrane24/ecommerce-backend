@@ -10,12 +10,14 @@ public class ShoppingCartProductsRequest{
 	    String _id, name, image;
 	    Double price;
 	    Integer quantity=1;
+	    Double subTotal;
 		
 	    public ShoppingCartProductsRequest(String _id, String name, String image, Double price) {
 			this._id = _id;
 			this.name = name;
 			this.image = image;
 			this.price = price;
+			this.subTotal=price;
 	    }
 	    
 		@Override

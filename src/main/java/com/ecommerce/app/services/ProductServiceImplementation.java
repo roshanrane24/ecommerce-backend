@@ -1,5 +1,6 @@
 package com.ecommerce.app.services;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,17 @@ public class ProductServiceImplementation implements IProductService {
         ShoppingCartProductsRequest productsRequest = new ShoppingCartProductsRequest(productId, product.getName(), product.getImage(), product.getPrice());
         return productsRequest;
     }
+
+	@Override
+	public boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList) {
+		return false;
+	}
+
+	@Override
+	public String reduceStock(List<ShoppingCartProductsRequest> itemList) {
+		return null;
+		
+		
+	}
 
 }

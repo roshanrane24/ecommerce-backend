@@ -49,7 +49,7 @@ public class WishListController {
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
 		if (user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
-			return ResponseEntity.ok(new MessageResponse("Product already added to Wish List"));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Product already added to Wish List"));
 		user.getWishList().add(productService.getWishListProductById(wishList.getProductId()));
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Product added to wishlist successfully!"));
@@ -62,9 +62,9 @@ public class WishListController {
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
 		if (user.getWishList().isEmpty())
-			return ResponseEntity.ok(new MessageResponse("Wishlist is Empty"));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wishlist is Empty");
 		if (!user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
-			return ResponseEntity.ok(new MessageResponse("Product does not exist!"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Product does not exist!"));
 		user.getWishList().remove(productService.getWishListProductById(wishList.getProductId()));
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Product removed from wishlist successfully!"));

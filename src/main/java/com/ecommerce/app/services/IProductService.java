@@ -1,5 +1,6 @@
 package com.ecommerce.app.services;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.ecommerce.app.dto.request.ProductDetailsRequest;
@@ -19,4 +20,8 @@ public interface IProductService {
 	ProductDetailsRequest getWishListProductById(String productId);
 	
 	ShoppingCartProductsRequest getShoppingCartProductById(String productId);
+	
+	boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList);
+
+	String reduceStock(List<ShoppingCartProductsRequest> itemList);
 }
