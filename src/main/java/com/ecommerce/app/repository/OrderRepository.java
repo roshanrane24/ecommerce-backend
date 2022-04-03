@@ -10,4 +10,6 @@ public interface OrderRepository extends MongoRepository<Order,String> {
 //            sort="{order_date : -1}",
 //            fields = "{ _id: 1 , order_date: 1, order_amount: 1, order_status:1}")
 //    Stream<OrderRequest> getLatestOrders();
+	
+	Order findByRazorpayOrderId(String orderId);
 }
