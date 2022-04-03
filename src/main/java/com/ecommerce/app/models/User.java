@@ -63,8 +63,11 @@ public class User {
     
 	private Map<Integer, Address> addresses = new HashMap<>() ;
 	
-	@Field(value = "default_address")
-	private Address defaultAddress;
+	@Field(value = "billing_address")
+	private Address billingAddress;
+	
+	@Field(value = "shipping_address")
+	private Address shippingAddress;
 	
 	@DBRef
 	@Field(value = "order_history")
