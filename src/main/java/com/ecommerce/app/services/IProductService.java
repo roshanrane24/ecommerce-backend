@@ -23,5 +23,5 @@ public interface IProductService {
 	
 	boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList);
 
-	String reduceStock(List<ShoppingCartProductsRequest> itemList);
+	void reduceStock(List<ShoppingCartProductsRequest> itemList);
 }

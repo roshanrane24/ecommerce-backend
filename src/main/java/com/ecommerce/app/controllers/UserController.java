@@ -82,8 +82,10 @@ public class UserController {
 		if (user.getAddresses().containsKey(address.getId()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Address already present"));
 		user.getAddresses().put(address.getId(), address);
-		if (user.getDefaultAddress() == null)
-			user.setDefaultAddress(address);
+		if (user.getBillingAddress() == null)
+			user.setBillingAddress(address);
+		if(user.getShippingAddress() ==null)
+			user.setShippingAddress(address);
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Address added successfully"));
 	}
@@ -97,7 +99,7 @@ public class UserController {
 		User user = userService.getByEmail(email);
 		if (!user.getAddresses().containsKey(deleteAddress.getAddressId()))
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Address not found."));
-		if (user.getDefaultAddress().getId().equals(deleteAddress.getAddressId()))
+		if (user.getBillingAddress().getId().equals(deleteAddress.getAddressId()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(
 					"Default Address can not be remove!! first change the Default Address then Delete"));
 		user.getAddresses().remove(deleteAddress.getAddressId());
@@ -106,18 +108,34 @@ public class UserController {
 	}
 
 	// Select Default Address
-	@PostMapping("/address/change-default")
-	public ResponseEntity<?> changeDefaultAddress(@RequestHeader String authorization,
+	@PostMapping("/address/change-billing")
+	public ResponseEntity<?> changeDefaultBillingAddress(@RequestHeader String authorization,
 			@RequestBody ChangeAddressRequest changeAddress) {
 		String token = jwtUtils.getTokenFromHeader(authorization);
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
 		if (!user.getAddresses().containsKey(changeAddress.getAddressId()))
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Address not found."));
-		if (user.getDefaultAddress().getId().equals(changeAddress.getAddressId()))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("This address is already set to default"));
-		user.setDefaultAddress(user.getAddresses().get(changeAddress.getAddressId()));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Billing Address not found."));
+		if (user.getBillingAddress().getId().equals(changeAddress.getAddressId()))
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("This Billing address is already set to default"));
+		user.setBillingAddress(user.getAddresses().get(changeAddress.getAddressId()));
 		userService.saveUser(user);
-		return ResponseEntity.ok(new MessageResponse("Default Address changed successfully"));
+		return ResponseEntity.ok(new MessageResponse("Default Billing Address changed successfully"));
 	}
+	
+	// Select Default Address
+		@PostMapping("/address/change-shipping")
+		public ResponseEntity<?> changeDefaultShippingAddress(@RequestHeader String authorization,
+				@RequestBody ChangeAddressRequest changeAddress) {
+			String token = jwtUtils.getTokenFromHeader(authorization);
+			String email = jwtUtils.getUserNameFromJwtToken(token);
+			User user = userService.getByEmail(email);
+			if (!user.getAddresses().containsKey(changeAddress.getAddressId()))
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Shipping Address not found."));
+			if (user.getShippingAddress().getId().equals(changeAddress.getAddressId()))
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("This Shipping address is already set to default"));
+			user.setShippingAddress(user.getAddresses().get(changeAddress.getAddressId()));
+			userService.saveUser(user);
+			return ResponseEntity.ok(new MessageResponse("Default Shipping Address changed successfully"));
+		}
 }

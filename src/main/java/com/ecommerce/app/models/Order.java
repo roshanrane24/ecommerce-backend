@@ -39,17 +39,28 @@ public class Order {
 		@Field(value = "order_status")
 		private OrderStatus orderStatus;
 		
-		@Field(value = "delivery_address")
-		private Address deliveryAddress;
+		@NotBlank
+		@Field(value = "payment_status")
+		private PaymentStatus paymentStatus;
+		
+		@Field(value = "shipping_address")
+		private Address shippingAddress;
+		
+		@Field(value = "billing_address")
+		private Address billingAddress;
 
+		
+		
 		public Order(Double orderAmount, List<ShoppingCartProductsRequest> itemList,
-				Instant orderDate, @NotBlank OrderStatus orderStatus, Address deliveryAddress) {
+				   Address shippingAddress,Address billingAddress) {
 			super();
 			this.orderAmount = orderAmount;
 			this.itemList = itemList;
-			this.orderDate = orderDate;
-			this.orderStatus = orderStatus;
-			this.deliveryAddress = deliveryAddress;
+			this.orderDate = Instant.now();
+			this.orderStatus =  OrderStatus.PAYMENT_PENDING;
+			this.paymentStatus = PaymentStatus.PENDING;
+			this.shippingAddress = shippingAddress;
+			this.billingAddress = billingAddress;
 		}
 		
 		
