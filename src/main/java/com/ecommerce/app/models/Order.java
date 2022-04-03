@@ -1,5 +1,6 @@
 package com.ecommerce.app.models;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,13 @@ import lombok.Data;
 
 @Data
 @Document(collection ="orders") 
-public class Order {
+public class Order implements Serializable {
 	
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7087732500886590870L;
+
 		@Id  // Specify the MongoDB document’s primary key _id using the @Id annotation
 		private String id;
 		
@@ -48,8 +54,9 @@ public class Order {
 		
 		@Field(value = "billing_address")
 		private Address billingAddress;
-
 		
+		@Field(value = "razorpay_id")
+		private String razorpayOrderId;
 		
 		public Order(Double orderAmount, List<ShoppingCartProductsRequest> itemList,
 				   Address shippingAddress,Address billingAddress) {

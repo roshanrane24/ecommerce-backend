@@ -45,7 +45,8 @@ public class OrderServiceImplementation implements IOrderService {
 	}
 
 	@Override
-	public Order saveOrder(Order order) {
+	public Order saveOrder(Order order,String razorpayId) {
+		order.setRazorpayOrderId(razorpayId);
 		return orderRepository.save(order);
 	}
 
