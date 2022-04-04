@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ecommerce.app.dto.request.NewOrderRequest;
+import com.ecommerce.app.dto.request.OrderRequest;
+import com.ecommerce.app.dto.request.ProductRequest;
 import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
 import com.ecommerce.app.models.Order;
 import com.ecommerce.app.models.User;
@@ -22,6 +25,9 @@ public class OrderServiceImplementation implements IOrderService {
 	
 	@Autowired
 	OrderRepository orderRepository;
+	
+	@Autowired
+	IProductService productService;
 	
 //	@Override
 //	public Stream<OrderRequest> getLatestOrders() {
@@ -39,14 +45,7 @@ public class OrderServiceImplementation implements IOrderService {
 	}
 
 	@Override
-	public Order createNewOrder(User user) {
-		Order newOrder = new Order(getOrderAmount(user.getShoppingCart()),user.getShoppingCart(), user.getShippingAddress() , user.getBillingAddress());
-		return newOrder;
-	}
-
-	@Override
-	public Order saveOrder(Order order,String razorpayId) {
-		order.setRazorpayOrderId(razorpayId);
+	public Order saveOrder(Order order) {
 		return orderRepository.save(order);
 	}
 
@@ -54,6 +53,24 @@ public class OrderServiceImplementation implements IOrderService {
 	public Order getOrderById(String orderId) {
 		 
 		return orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("Order Id Not Found !!"));
+	}
+
+	@Override
+	public Order createNewOrder(OrderRequest orderRequest) {
+		Order newOrder = new Order(getOrderAmount(orderRequest.getListOfProducts()),orderRequest.getListOfProducts(), orderRequest.getShippingAddress() , orderRequest.getBillingAddress());
+		return newOrder;
+	}
+
+	@Override
+	public OrderRequest createNewOrderRequest(NewOrderRequest newOrderRequest, User user) {
+		OrderRequest orderRequest = new OrderRequest();
+		for(ProductRequest productRequest : newOrderRequest.getProductsList()) {
+			orderRequest.getListOfProducts().add(productService.getShoppingCartProductById(productRequest.getProductId(), productRequest.getQuantity()));
+		}
+		orderRequest.setBillingAddress(user.getAddresses().get(newOrderRequest.getBillingAddressId()));
+		orderRequest.setShippingAddress(user.getAddresses().get(newOrderRequest.getShippingAddressId()));
+		
+		return orderRequest;
 	}
 
 }

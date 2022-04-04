@@ -50,12 +50,13 @@ public class ShoppingCartController {
 		String token = jwtUtils.getTokenFromHeader(authorization);
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
-		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId());
+		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId(), productRequest.getQuantity());
+	//	cartProduct.setQuantity(productRequest.getQuantity());
 		Product product = productService.getProductById(productRequest.getProductId());
 		if (user.getShoppingCart().contains(cartProduct)) {
 			ShoppingCartProductsRequest existingCartProduct = user.getShoppingCart()
 					.get(user.getShoppingCart().indexOf(cartProduct));
-			if (existingCartProduct.getQuantity() > product.getStock())
+			if (existingCartProduct.getQuantity() >= product.getStock())
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cannot add quantity greater than stock available"));
 			existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
 			existingCartProduct.setSubTotal(existingCartProduct.getPrice()*existingCartProduct.getQuantity());
@@ -73,7 +74,7 @@ public class ShoppingCartController {
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
 
-		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId());
+		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId(), 1);
 
 		if (user.getShoppingCart().isEmpty())
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Shopping Cart is Empty"));
@@ -85,6 +86,39 @@ public class ShoppingCartController {
 			existingCartProduct.setQuantity(existingCartProduct.getQuantity() - 1);
 		else
 			user.getShoppingCart().remove(existingCartProduct);
+		userService.saveUser(user);
+		return ResponseEntity.ok(new MessageResponse("Product removed from Cart successfully!"));
+	}
+	
+	// for removing product from cart
+	@DeleteMapping("/remove-product")
+	public ResponseEntity<?> removeProductFromCart(@RequestHeader String authorization, @RequestBody ProductRequest productRequest) {
+		String token = jwtUtils.getTokenFromHeader(authorization);
+		String email = jwtUtils.getUserNameFromJwtToken(token);
+		User user = userService.getByEmail(email);
+
+		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId(), 1);
+
+		if (user.getShoppingCart().isEmpty())
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Shopping Cart is Empty"));
+		if (!user.getShoppingCart().contains(cartProduct))
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Product does not exist!"));
+		ShoppingCartProductsRequest existingCartProduct = user.getShoppingCart()
+				.get(user.getShoppingCart().indexOf(cartProduct));
+			user.getShoppingCart().remove(existingCartProduct);
+		userService.saveUser(user);
+		return ResponseEntity.ok(new MessageResponse("Product removed from Cart successfully!"));
+	}
+	
+	// for removing all products from cart
+	@DeleteMapping("/remove-all")
+	public ResponseEntity<?> removeAllProductFromCart(@RequestHeader String authorization) {
+		String token = jwtUtils.getTokenFromHeader(authorization);
+		String email = jwtUtils.getUserNameFromJwtToken(token);
+		User user = userService.getByEmail(email);
+		if (user.getShoppingCart().isEmpty())
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Shopping Cart is Empty"));
+		user.getShoppingCart().clear();
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Product removed from Cart successfully!"));
 	}

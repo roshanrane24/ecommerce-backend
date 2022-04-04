@@ -6,4 +6,6 @@ import lombok.Data;
 public class ProductRequest {
 
 	String productId;
+	
+	Integer quantity;
 }

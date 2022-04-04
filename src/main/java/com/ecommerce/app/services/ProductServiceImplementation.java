@@ -50,10 +50,10 @@ public class ProductServiceImplementation implements IProductService {
 	}
 	
 	@Override
-    public ShoppingCartProductsRequest getShoppingCartProductById(String productId) {
+    public ShoppingCartProductsRequest getShoppingCartProductById(String productId, Integer quantity) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product by ID " + productId + " not found!!!!"));
-        ShoppingCartProductsRequest productsRequest = new ShoppingCartProductsRequest(productId, product.getName(), product.getImage(), product.getPrice());
+        ShoppingCartProductsRequest productsRequest = new ShoppingCartProductsRequest(productId, product.getName(), product.getImage(), product.getPrice(), quantity);
         return productsRequest;
     }
 

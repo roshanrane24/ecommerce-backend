@@ -12,14 +12,15 @@ public class ShoppingCartProductsRequest{
 	    Integer quantity=1;
 	    Double subTotal;
 		
-	    public ShoppingCartProductsRequest(String _id, String name, String image, Double price) {
+	    public ShoppingCartProductsRequest(String _id, String name, String image, Double price, Integer quantity) {
 			this._id = _id;
 			this.name = name;
 			this.image = image;
 			this.price = price;
-			this.subTotal=price;
+			this.quantity = quantity;
+			this.subTotal=price*quantity;
 	    }
-	    
+
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)

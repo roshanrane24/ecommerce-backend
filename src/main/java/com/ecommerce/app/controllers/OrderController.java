@@ -13,14 +13,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.app.config.RazorPayClientConfig;
+import com.ecommerce.app.dto.request.NewOrderRequest;
+import com.ecommerce.app.dto.request.TransactionRequest;
 import com.ecommerce.app.dto.response.MessageResponse;
 import com.ecommerce.app.dto.response.OrderResponse;
 import com.ecommerce.app.models.Order;
+import com.ecommerce.app.models.OrderStatus;
+import com.ecommerce.app.models.PaymentStatus;
 import com.ecommerce.app.models.User;
 import com.ecommerce.app.repository.OrderRepository;
 import com.ecommerce.app.security.jwt.JwtUtils;
@@ -37,6 +43,7 @@ public class OrderController {
 
 	private RazorpayClient client;
 
+	@SuppressWarnings("unused")
 	private RazorPayClientConfig razorPayClientConfig;
 
 	@Autowired
@@ -84,14 +91,14 @@ public class OrderController {
 		return ResponseEntity.ok(orders);
 	}
 
-	@GetMapping("/create")
-	public ResponseEntity<?> createOrder(@RequestHeader String authorization) {
+	@PostMapping("/create")
+	public ResponseEntity<?> createOrder(@RequestHeader String authorization, @RequestBody NewOrderRequest newOrderRequest) {
 		String token = jwtUtils.getTokenFromHeader(authorization);
 		String email = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.getByEmail(email);
-		if (user.getShoppingCart().isEmpty() || user.getBillingAddress() == null || user.getShippingAddress() == null)
+		if (newOrderRequest.getProductsList().isEmpty() || newOrderRequest.getBillingAddressId() == null || newOrderRequest.getShippingAddressId() == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cannot create order !!!"));
-		Order newOrder = orderService.createNewOrder(user);
+		Order newOrder = orderService.createNewOrder(orderService.createNewOrderRequest(newOrderRequest, user));
 		if (productService.stockUnavailable(newOrder.getItemList()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(new MessageResponse("Cannot order as stock is unavailable"));
@@ -108,14 +115,12 @@ public class OrderController {
             // as paise (in case of INR)
             String amountInPaise = convertRupeeToPaise(newOrder.getOrderAmount().toString());
             // Create an order in RazorPay and get the order id
-            System.out.println("1");
             com.razorpay.Order order = createRazorPayOrder(amountInPaise);
-            System.out.println("2");
             razorPay = getOrderResponse((String)order.get("id"));
-            newOrder.setRazorpayOrderId((String)order.get("id"));
+            newOrder.setRazorpayOrderId(razorPay.getRazorpayOrderId());
             // Save order in the database
             
-            user.getOrders().add(orderService.saveOrder(newOrder,razorPay.getRazorpayOrderId()));
+            user.getOrders().add(orderService.saveOrder(newOrder));
     		user.setShoppingCart(new ArrayList<>());
     		userService.saveUser(user);
         } catch (RazorpayException e) {
@@ -147,18 +152,19 @@ public class OrderController {
         return value.setScale(0, RoundingMode.UP).toString();
     }
 
-//	@PostMapping("/reduce-stock")
-//	public ResponseEntity<?> reduceStock(@RequestBody TransactionRequest transactionRequest) {
-//
-//		Order order = orderService.getOrderById(transactionRequest.getOrderId());
-//
-//		productService.reduceStock(order.getItemList());
-//
-//		order.setOrderStatus(OrderStatus.PLACED);
-//		order.setPaymentStatus(PaymentStatus.SUCCESS);
-//
-//		orderService.saveOrder(order);
-//		return ResponseEntity.ok(new MessageResponse("Stock Reduced Successfully"));
-//	}
+	@PostMapping("/reduce-stock")
+	public ResponseEntity<?> reduceStock(@RequestBody TransactionRequest transactionRequest) {
+
+		Order order = orderService.getOrderById(transactionRequest.getOrderId());
+		if(order.getPaymentStatus()==PaymentStatus.SUCCESS)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Already Done!"));
+		productService.reduceStock(order.getItemList());
+
+		order.setOrderStatus(OrderStatus.PLACED);
+		order.setPaymentStatus(PaymentStatus.SUCCESS);
+		order.setTransactionId(transactionRequest.getTransactionId());
+		orderService.saveOrder(order);
+		return ResponseEntity.ok(new MessageResponse("Stock Reduced Successfully"));
+	}
 
 }

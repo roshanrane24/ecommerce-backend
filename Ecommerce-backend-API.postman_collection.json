@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7de3a8a5-89a1-48ad-8d7b-2a191ed024bf",
+		"_postman_id": "5965cf31-189c-4797-891a-8f661dfad50e",
 		"name": "Ecommerce-backend-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"anantgeh@ggg.com\",\r\n    \"password\":\"123456789\"\r\n}",
+					"raw": "{\r\n     \"email\":\"roshan@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,7 +52,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstname\":\"Anant\",\n    \"lastname\":\"Gehi\",\n    \"email\":\"anantgeh@gg.com\",\n    \"password\":\"123456\"\n}",
+					"raw": "{\n    \"firstname\":\"roshan\",\n    \"lastname\":\"rane\",\n    \"email\":\"roshan@gmail.com\",\n    \"password\":\"123456\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -260,7 +260,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZ2cuY29tIiwiaWF0IjoxNjQ4ODkyOTk1LCJleHAiOjE2NDg5NzkzOTV9.YJo9R-OCACo5wNatMxf3pdJ7FgbeRjTR-cqMTz5AHFTx7V1PA8ZVJNgLohxIpEx8CckIoBHRJg2ZX8-wV3Vryg",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
 							"type": "string"
 						}
 					]
@@ -291,7 +291,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZ2cuY29tIiwiaWF0IjoxNjQ4ODkyOTk1LCJleHAiOjE2NDg5NzkzOTV9.YJo9R-OCACo5wNatMxf3pdJ7FgbeRjTR-cqMTz5AHFTx7V1PA8ZVJNgLohxIpEx8CckIoBHRJg2ZX8-wV3Vryg",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
 							"type": "string"
 						}
 					]
@@ -300,7 +300,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"productId\":\"6241bb025d8d7f1ceb76e1fe\"\r\n}",
+					"raw": "{\r\n    \"productId\":\"6241be1b5d8d7f1ceb76e1ff\",\r\n    \"quantity\":10\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -331,7 +331,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZ2cuY29tIiwiaWF0IjoxNjQ4ODkyOTk1LCJleHAiOjE2NDg5NzkzOTV9.YJo9R-OCACo5wNatMxf3pdJ7FgbeRjTR-cqMTz5AHFTx7V1PA8ZVJNgLohxIpEx8CckIoBHRJg2ZX8-wV3Vryg",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
 							"type": "string"
 						}
 					]
@@ -348,7 +348,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/shopping-cart/remove",
+					"raw": "http://localhost:8080/api/shopping-cart/remove-product",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -357,7 +357,78 @@
 					"path": [
 						"api",
 						"shopping-cart",
-						"remove"
+						"remove-product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove from Cart Specific Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\":\"6241bb025d8d7f1ceb76e1fe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/shopping-cart/remove-product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"shopping-cart",
+						"remove-product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove from Cart All Products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/shopping-cart/remove-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"shopping-cart",
+						"remove-all"
 					]
 				}
 			},
@@ -402,7 +473,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZ2cuY29tIiwiaWF0IjoxNjQ4ODkyOTk1LCJleHAiOjE2NDg5NzkzOTV9.YJo9R-OCACo5wNatMxf3pdJ7FgbeRjTR-cqMTz5AHFTx7V1PA8ZVJNgLohxIpEx8CckIoBHRJg2ZX8-wV3Vryg",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
 							"type": "string"
 						}
 					]
@@ -434,7 +505,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnZ2cuY29tIiwiaWF0IjoxNjQ4ODkyOTk1LCJleHAiOjE2NDg5NzkzOTV9.YJo9R-OCACo5wNatMxf3pdJ7FgbeRjTR-cqMTz5AHFTx7V1PA8ZVJNgLohxIpEx8CckIoBHRJg2ZX8-wV3Vryg",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
 							"type": "string"
 						}
 					]
@@ -443,7 +514,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"typeOfAddress\": \"HOME\",\n    \"country\" : \"INDIA\",\n    \"state\" : \"Rajasthan\",\n    \"fullName\" : \"Aman Gangwar\",\n    \"mobileNumber\" : 7068398252,\n    \"pincode\" : 302022,\n    \"line1\" : \"Sitapura\",\n    \"line2\" : \"Amravati\",\n    \"landmark\": \"Near Bank of India\",\n    \"townCity\": \"Jaipu\"\n}",
+					"raw": "{\n    \"typeOfAddress\": \"HOME\",\n    \"country\" : \"INDIA\",\n    \"state\" : \"Maharashtra\",\n    \"fullName\" : \"Anant Gehi\",\n    \"mobileNumber\" : 7387578060,\n    \"pincode\" : 444606,\n    \"line1\" : \"MIDC ROAD\",\n    \"line2\" : \"Amravati\",\n    \"landmark\": \"Near Sai Baba School\",\n    \"townCity\": \"Amravati\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -597,7 +668,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODk3MzI5NywiZXhwIjoxNjQ5MDU5Njk3fQ.TErKcz3qskFZnYCSQtoaqgTeiYp9mDjrpKEIG_p8ctQbEzWy5Pglfz-wWXjzXLjc0HBrDcByeL_3anOSb99u5w",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
 							"type": "string"
 						}
 					]
@@ -606,7 +677,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"itemsList\": [],\n  \"deliveryAddress\": {}\n}",
+					"raw": "{\n    \"productsList\": [\n        {\n            \"productId\":\"6241bb025d8d7f1ceb76e1fe\",\n            \"quantity\": 1\n        },\n        {\n            \"productId\":\"6241be1b5d8d7f1ceb76e1ff\",\n            \"quantity\": 1 \n        }\n    ],\n    \"billingAddressId\": 897019555,\n    \"shippingAddressId\": 897019555\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -640,7 +711,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmFudGdlaEBnLmNvbSIsImlhdCI6MTY0ODk3MzI5NywiZXhwIjoxNjQ5MDU5Njk3fQ.TErKcz3qskFZnYCSQtoaqgTeiYp9mDjrpKEIG_p8ctQbEzWy5Pglfz-wWXjzXLjc0HBrDcByeL_3anOSb99u5w",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
 							"type": "string"
 						}
 					]
@@ -667,6 +738,46 @@
 						"api",
 						"orders",
 						"display"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"transactionId\":\"123456789\",\n    \"orderId\":\"624ac8f0e10f476f7efc4890\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/orders/reduce-stock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"orders",
+						"reduce-stock"
 					]
 				}
 			},

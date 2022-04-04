@@ -19,7 +19,7 @@ public interface IProductService {
 	
 	ProductDetailsRequest getWishListProductById(String productId);
 	
-	ShoppingCartProductsRequest getShoppingCartProductById(String productId);
+	ShoppingCartProductsRequest getShoppingCartProductById(String productId, Integer quantity);
 	
 	boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList);
 
