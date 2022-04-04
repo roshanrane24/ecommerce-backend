@@ -52,7 +52,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstname\":\"roshan\",\n    \"lastname\":\"rane\",\n    \"email\":\"roshan@gmail.com\",\n    \"password\":\"123456\"\n}",
+					"raw": "{\n    \"firstname\":\"admin\",\n    \"lastname\":\"admin\",\n    \"email\":\"admin@gmail.com\",\n    \"password\":\"admin123\",\n    \"roles\": [\n        \"admin\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -778,6 +778,123 @@
 						"api",
 						"orders",
 						"reduce-stock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDczMDM0LCJleHAiOjE2NDkxNTk0MzR9._7yLruKgIl90E95Wq3lJkEGJjeZMmrxsrTskIeGi-iZgsCZ0YchLoYQfs2G_uZcraKEteyIZPAV6bSN9KuUUwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Sony LinkBuds Truly Wireless Earbud Headphones with an Open-Ring Design for Ambient Sounds and Alexa Built-in, Gray\",\n    \"description\":\"Open-ring design that allows you to hear calls, listen to music, play games, and hear other types of online content anytime, all while remaining naturally connected to what’s happening around you.\",\n    \"price\":13979.23,\n    \"stock\":10,\n    \"subCategoryName\":\"Earphones\",\n    \"additionalDetails\":{\n        \"Brand\":\"Sony\",\n        \"Ear_Placement\":\"In Ear\",\n        \"Color\":\"Gray\",\n        \"Connectivity_Technology\":\"Wireless\",\n        \"Model_Name\":\"Sony LinkBuds Truly Wireless Earbuds\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/addProduct",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"addProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Image",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDczMDM0LCJleHAiOjE2NDkxNTk0MzR9._7yLruKgIl90E95Wq3lJkEGJjeZMmrxsrTskIeGi-iZgsCZ0YchLoYQfs2G_uZcraKEteyIZPAV6bSN9KuUUwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/dell/41EWIj9Qr6L._AC_SL1200_.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/addImage/624adbbcfe293e30b80382e0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"addImage",
+						"624adbbcfe293e30b80382e0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NDkwNzE5MTMsImV4cCI6MTY0OTE1ODMxM30.8iaZpVlEb9BLv1k8UpfP-44kdGu1642kt9JjT5As3uobw5hwEXFoBT7mzeVRTxg2emejCybC5HSvC29FSzBRHA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "roshan@gmail.com"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/admin/makeAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"makeAdmin"
 					]
 				}
 			},
