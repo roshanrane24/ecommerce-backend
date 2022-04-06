@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,6 +120,24 @@ public class ProductServiceImplementation implements IProductService {
 		p.setImage(productId+".jpeg");
 		
 		return productRepository.save(p);
+	}
+
+	@Override
+	public Page<ProductDetailsRequest> getAllByQ(String query, Pageable pageable) {
+		 
+		return productRepository.findAllByQ(query, pageable);
+	}
+
+	@Override
+	public Page<ProductDetailsRequest> getAllBySubCategory(String query, Pageable pageable) {
+	
+		return productRepository.findAllBySubCategory(query, pageable);
+	}
+
+	@Override
+	public Page<ProductDetailsRequest> getAllByQ(Pageable pageable) {
+		 
+		return  productRepository.getAllByQ(pageable);
 	}
 
 }

@@ -1,18 +1,25 @@
 package com.ecommerce.app.controllers;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -26,7 +33,6 @@ import com.ecommerce.app.dto.response.MessageResponse;
 import com.ecommerce.app.dto.response.OrderResponse;
 import com.ecommerce.app.models.Order;
 import com.ecommerce.app.models.OrderStatus;
-import com.ecommerce.app.models.PaymentStatus;
 import com.ecommerce.app.models.User;
 import com.ecommerce.app.repository.OrderRepository;
 import com.ecommerce.app.security.jwt.JwtUtils;
@@ -35,6 +41,14 @@ import com.ecommerce.app.services.IProductService;
 import com.ecommerce.app.services.IUserService;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -80,9 +94,8 @@ public class OrderController {
 	// For User
 	@GetMapping("/display")
 	public ResponseEntity<?> getLatestOrders(@RequestHeader String authorization) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String email = jwtUtils.getUserNameFromJwtToken(token);
-		User user = userService.getByEmail(email);
+		 
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 		List<Order> orders;
 		try (Stream<Order> stream = user.getOrders().stream()
 				.sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()))) {
@@ -93,9 +106,7 @@ public class OrderController {
 
 	@PostMapping("/create")
 	public ResponseEntity<?> createOrder(@RequestHeader String authorization, @RequestBody NewOrderRequest newOrderRequest) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String email = jwtUtils.getUserNameFromJwtToken(token);
-		User user = userService.getByEmail(email);
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 		if (newOrderRequest.getProductsList().isEmpty() || newOrderRequest.getBillingAddressId() == null || newOrderRequest.getShippingAddressId() == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cannot create order !!!"));
 		Order newOrder = orderService.createNewOrder(orderService.createNewOrderRequest(newOrderRequest, user));
@@ -152,19 +163,49 @@ public class OrderController {
         return value.setScale(0, RoundingMode.UP).toString();
     }
 
-	@PostMapping("/reduce-stock")
-	public ResponseEntity<?> reduceStock(@RequestBody TransactionRequest transactionRequest) {
+	@PostMapping("/transaction-handler")
+	public ResponseEntity<?> transactionHandler(@RequestBody TransactionRequest transactionRequest) {
 
-		Order order = orderService.getOrderById(transactionRequest.getOrderId());
-		if(order.getPaymentStatus()==PaymentStatus.SUCCESS)
+		Order order = orderService.getOrderByrazorpayId(transactionRequest.getRazorpayOrderId());
+		if(!(order.getOrderStatus()== OrderStatus.PAYMENT_PENDING || order.getOrderStatus()== OrderStatus.FAILED))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Already Done!"));
+		if(!transactionRequest.isPaid())
+		{
+			order.setOrderStatus(OrderStatus.FAILED);
+			orderService.saveOrder(order);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Failed !!"));
+		}
+		
 		productService.reduceStock(order.getItemList());
 
 		order.setOrderStatus(OrderStatus.PLACED);
-		order.setPaymentStatus(PaymentStatus.SUCCESS);
 		order.setTransactionId(transactionRequest.getTransactionId());
 		orderService.saveOrder(order);
-		return ResponseEntity.ok(new MessageResponse("Stock Reduced Successfully"));
+		return ResponseEntity.ok(new MessageResponse("Transaction completed Successfully"));
 	}
+	
+    @GetMapping(value = "/invoice/{orderId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> downloadInvoice(@RequestHeader String authorization,@PathVariable String orderId) throws JRException, IOException {
+        
+ 
+    	User user =  jwtUtils.getUserFromRequestHeader(authorization);
+    	  
+        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(orderService.getListOfOrder(user.getOrders(), orderId), false);
 
+        Map<String, Object> parameters = new HashMap<>();
+
+        JasperReport compileReport = JasperCompileManager
+                .compileReport(new FileInputStream("src/main/resources/invoice.jrxml"));
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, parameters, beanCollectionDataSource);
+
+        //JasperExportManager.exportReportToPdf(jasperPrint, orderId + ".pdf");
+
+        byte data[] = JasperExportManager.exportReportToPdf(jasperPrint);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Disposition", "inline; filename="+orderId+".pdf");
+
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
+}
 }

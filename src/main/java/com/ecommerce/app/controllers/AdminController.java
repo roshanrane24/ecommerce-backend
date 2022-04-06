@@ -41,9 +41,8 @@ public class AdminController {
 
 	@PostMapping("/addProduct")
 	public ResponseEntity<?> addNewProducts(@RequestHeader String authorization,@RequestBody AddNewProduct newProduct) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String adminEmail = jwtUtils.getUserNameFromJwtToken(token);
-		User userAdmin = userService.getByEmail(adminEmail);
+		 
+		User userAdmin =  jwtUtils.getUserFromRequestHeader(authorization);
 		if(!userAdmin.getRoles().contains(roleService.getByName(ERole.ROLE_ADMIN)))
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Admin Credentials Required!!!"));
 		

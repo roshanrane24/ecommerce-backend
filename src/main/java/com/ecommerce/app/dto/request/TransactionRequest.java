@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class TransactionRequest {
 	private String transactionId;
-	private String orderId;
+	private String razorpayOrderId;
+	private boolean isPaid;
+	 
 }
