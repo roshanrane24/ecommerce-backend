@@ -4,12 +4,15 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.ecommerce.app.models.User;
 import com.ecommerce.app.security.services.UserDetailsImpl;
+import com.ecommerce.app.services.IUserService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +25,9 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
+	@Autowired
+	IUserService userService;
+	
 	@Value("${ecommerce.app.jwtSecret}")
 	private String jwtSecret;
 
@@ -65,5 +71,12 @@ public class JwtUtils {
 			return headerAuth.substring(7, headerAuth.length());
 		}
 		return null;
+	}
+	
+	public User getUserFromRequestHeader(String authorization) {
+      String token = getTokenFromHeader(authorization);
+      String email = getUserNameFromJwtToken(token);
+      
+      return userService.getByEmail(email);
 	}
 }

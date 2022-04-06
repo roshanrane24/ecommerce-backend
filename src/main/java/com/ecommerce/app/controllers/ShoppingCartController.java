@@ -38,18 +38,14 @@ public class ShoppingCartController {
 	// for displaying Shopping Cart
 	@GetMapping("/display")
 	public ResponseEntity<?> displayCart(@RequestHeader String authorization) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String email = jwtUtils.getUserNameFromJwtToken(token);
-		User user = userService.getByEmail(email);
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 		return ResponseEntity.ok(user.getShoppingCart());
 	}
 	
 	// for adding to Cart
 	@PostMapping("/add")
 	public ResponseEntity<?> addToCart(@RequestHeader String authorization, @RequestBody ProductRequest productRequest) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String email = jwtUtils.getUserNameFromJwtToken(token);
-		User user = userService.getByEmail(email);
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId(), productRequest.getQuantity());
 	//	cartProduct.setQuantity(productRequest.getQuantity());
 		Product product = productService.getProductById(productRequest.getProductId());
@@ -70,9 +66,7 @@ public class ShoppingCartController {
 	// for removing from cart
 	@DeleteMapping("/remove")
 	public ResponseEntity<?> removeFromCart(@RequestHeader String authorization, @RequestBody ProductRequest productRequest) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String email = jwtUtils.getUserNameFromJwtToken(token);
-		User user = userService.getByEmail(email);
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 
 		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId(), 1);
 
@@ -93,9 +87,7 @@ public class ShoppingCartController {
 	// for removing product from cart
 	@DeleteMapping("/remove-product")
 	public ResponseEntity<?> removeProductFromCart(@RequestHeader String authorization, @RequestBody ProductRequest productRequest) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String email = jwtUtils.getUserNameFromJwtToken(token);
-		User user = userService.getByEmail(email);
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 
 		ShoppingCartProductsRequest cartProduct = productService.getShoppingCartProductById(productRequest.getProductId(), 1);
 
@@ -113,9 +105,7 @@ public class ShoppingCartController {
 	// for removing all products from cart
 	@DeleteMapping("/remove-all")
 	public ResponseEntity<?> removeAllProductFromCart(@RequestHeader String authorization) {
-		String token = jwtUtils.getTokenFromHeader(authorization);
-		String email = jwtUtils.getUserNameFromJwtToken(token);
-		User user = userService.getByEmail(email);
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 		if (user.getShoppingCart().isEmpty())
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Shopping Cart is Empty"));
 		user.getShoppingCart().clear();

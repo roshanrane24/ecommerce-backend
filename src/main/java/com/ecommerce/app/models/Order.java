@@ -45,9 +45,6 @@ public class Order implements Serializable {
 		@Field(value = "order_status")
 		private OrderStatus orderStatus;
 		
-		@NotBlank
-		@Field(value = "payment_status")
-		private PaymentStatus paymentStatus;
 		
 		@Field(value = "shipping_address")
 		private Address shippingAddress;
@@ -58,6 +55,9 @@ public class Order implements Serializable {
 		@Field(value = "razorpay_id")
 		private String razorpayOrderId;
 		
+		@Field(value = "payment_method")
+		private String paymentMethod;
+		
 		public Order(Double orderAmount, List<ShoppingCartProductsRequest> itemList,
 				   Address shippingAddress,Address billingAddress) {
 			super();
@@ -65,7 +65,6 @@ public class Order implements Serializable {
 			this.itemList = itemList;
 			this.orderDate = Instant.now();
 			this.orderStatus =  OrderStatus.PAYMENT_PENDING;
-			this.paymentStatus = PaymentStatus.PENDING;
 			this.shippingAddress = shippingAddress;
 			this.billingAddress = billingAddress;
 		}

@@ -1,6 +1,7 @@
 package com.ecommerce.app.services;
 
 import java.util.List;
+import java.util.Set;
 
 import com.ecommerce.app.dto.request.NewOrderRequest;
 import com.ecommerce.app.dto.request.OrderRequest;
@@ -12,6 +13,8 @@ public interface IOrderService {
 	
 //	Stream<OrderRequest> getLatestOrders();
 	
+	Order getOrderByrazorpayId(String razorpayId);
+	
 	Double getOrderAmount(List<ShoppingCartProductsRequest> listOfProducts);
 	
 	Order saveOrder(Order order);
@@ -21,4 +24,6 @@ public interface IOrderService {
 	Order getOrderById(String orderId);
 
 	OrderRequest createNewOrderRequest(NewOrderRequest orderRequest, User user);
+	
+	List<Order> getListOfOrder(Set<Order> orderList,String orderId);  
 }

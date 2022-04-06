@@ -1,7 +1,9 @@
 package com.ecommerce.app.services;
 
  
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import com.ecommerce.app.repository.UserRepository;
 @Transactional
 public class OrderServiceImplementation implements IOrderService {
 
+	private final double taxPercentage = 10;
+	
 	@Autowired
 	UserRepository userRepository;
 	
@@ -38,10 +42,11 @@ public class OrderServiceImplementation implements IOrderService {
 	@Override
 	public Double getOrderAmount(List<ShoppingCartProductsRequest> listOfProducts) {
 		Double amount=0.0;
+		
 		for(ShoppingCartProductsRequest product : listOfProducts) {
 			amount+=product.getSubTotal();
 		}
-		return amount;
+		return amount*(1+(taxPercentage/100));
 	}
 
 	@Override
@@ -73,4 +78,22 @@ public class OrderServiceImplementation implements IOrderService {
 		return orderRequest;
 	}
 
+	@Override
+	public Order getOrderByrazorpayId(String razorpayId) {
+		 
+		return orderRepository.findByRazorpayOrderId(razorpayId).orElseThrow(()->new RuntimeException("Razorpay Id Not Found !!"));
+	}
+
+	@Override
+	public List<Order> getListOfOrder(Set<Order> orderList, String orderId) {
+		 List<Order> orders = new ArrayList<>();
+		 for (Order order : orderList) {
+			if(order.getId().equals(orderId)) {
+				orders.add(order);
+			}
+		}
+		 
+		return orders;
+	}
+	
 }
