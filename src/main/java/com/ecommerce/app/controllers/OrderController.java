@@ -185,7 +185,7 @@ public class OrderController {
 		order.setOrderStatus(OrderStatus.PLACED);
 		order.setTransactionId(transactionRequest.getTransactionId());
 		orderService.saveOrder(order);
-		return ResponseEntity.ok(new MessageResponse("Transaction completed Successfully"));
+		return ResponseEntity.ok(order.getId());
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
 	}
