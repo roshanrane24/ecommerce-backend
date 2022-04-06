@@ -176,7 +176,7 @@ public class OrderController {
 		{
 			order.setOrderStatus(OrderStatus.FAILED);
 			orderService.saveOrder(order);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Failed !!"));
+			return ResponseEntity.ok(new MessageResponse("Payment Failed !!"));
 		}
 		System.out.println(transactionRequest.toString());
 		
