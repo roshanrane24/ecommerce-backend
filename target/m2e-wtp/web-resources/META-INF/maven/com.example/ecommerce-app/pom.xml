@@ -119,8 +119,8 @@
        	<dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.6.0</version>
-        </dependency>
+            <version>6.1.0</version>
+        </dependency> 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-support</artifactId>
