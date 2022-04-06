@@ -172,12 +172,13 @@ public class OrderController {
 		if(order!=null) {
 		if(!(order.getOrderStatus()== OrderStatus.PAYMENT_PENDING || order.getOrderStatus()== OrderStatus.FAILED))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Already Done!"));
-		if(!transactionRequest.isPaid())
-		{
-			order.setOrderStatus(OrderStatus.FAILED);
-			orderService.saveOrder(order);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Failed !!"));
-		}
+		//if(!transactionRequest.isPaid())
+		//{
+		//	order.setOrderStatus(OrderStatus.FAILED);
+		//	orderService.saveOrder(order);
+		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Failed !!"));
+		//}
+			System.out.println(transactionRequest.toString());
 		
 		productService.reduceStock(order.getItemList());
 
