@@ -5,7 +5,7 @@ import lombok.Value;
 @Value
 public class ProductDetailsRequest {
 
-	    String _id, name, image;
+	    String id, name, image;
 	    Double price;
 
 }

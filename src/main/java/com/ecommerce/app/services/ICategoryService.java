@@ -9,5 +9,6 @@ public interface ICategoryService {
 	List<Category> getAllCategories();
 	
 	Category getCategoryById(String categoryId);
-
+	
+	Category getCategoryByName(String categoryName);
 }

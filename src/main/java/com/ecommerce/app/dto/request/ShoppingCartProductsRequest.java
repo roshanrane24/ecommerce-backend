@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class ShoppingCartProductsRequest{
 
-	    String _id, name, image;
+	    String id, name, image;
 	    Double price;
 	    Integer quantity=1;
 	    Double subTotal;
 		
-	    public ShoppingCartProductsRequest(String _id, String name, String image, Double price, Integer quantity) {
-			this._id = _id;
+	    public ShoppingCartProductsRequest(String id, String name, String image, Double price, Integer quantity) {
+			this.id = id;
 			this.name = name;
 			this.image = image;
 			this.price = price;
@@ -30,11 +30,11 @@ public class ShoppingCartProductsRequest{
 			if (getClass() != obj.getClass())
 				return false;
 			ShoppingCartProductsRequest other = (ShoppingCartProductsRequest) obj;
-			return Objects.equals(_id, other._id) && Objects.equals(image, other.image)
+			return Objects.equals(id, other.id) && Objects.equals(image, other.image)
 					&& Objects.equals(name, other.name) && Objects.equals(price, other.price);
 		}
 		@Override
 		public int hashCode() {
-			return Objects.hash(_id, image, name, price);
+			return Objects.hash(id, image, name, price);
 		}
 }

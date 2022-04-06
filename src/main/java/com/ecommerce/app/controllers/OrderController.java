@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.stream.Stream;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -74,6 +78,9 @@ public class OrderController {
 
 	@Autowired
 	private IProductService productService;
+	
+	@Value("${file.upload.location}/invoice")
+    private String location;
 
 	@Autowired
 	public OrderController(RazorPayClientConfig razorpayClientConfig) throws RazorpayException {
@@ -190,19 +197,20 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
 	}
 	
-    @GetMapping(value = "/invoice/{orderId}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<?> downloadInvoice(@RequestHeader String authorization,@PathVariable String orderId) throws JRException, IOException {
+	//RequestHeader removed for testing
+	@GetMapping(value = "/invoice/{orderId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<?> downloadInvoice(@PathVariable String orderId) throws JRException, IOException {
         
-    	User user =  jwtUtils.getUserFromRequestHeader(authorization);
-    	List<Order> orders = orderService.getListOfOrder(user.getOrders(), orderId);
-    	if(orders!=null) {
+        List<Order> orders = new ArrayList<>();
+ 
+        if(orders.add(orderService.getOrderById(orderId))) {
         JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(orders, false);
-
-        Map<String, Object> parameters = new HashMap<>();
 
         JasperReport compileReport = JasperCompileManager
                 .compileReport(new FileInputStream("src/main/resources/invoice.jrxml"));
 
+        Map<String, Object> parameters = new HashMap<>();
+        
         JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, parameters, beanCollectionDataSource);
 
         //JasperExportManager.exportReportToPdf(jasperPrint, orderId + ".pdf");
@@ -213,7 +221,15 @@ public class OrderController {
         headers.set("Content-Disposition", "inline; filename="+orderId+".pdf");
 
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
-    	}
-    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
 }
+    
+    @GetMapping("/invoice/image/{imageName}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String imageName) throws IOException {
+        Path path = Paths.get(location, imageName);
+        byte[] imageData = Files.readAllBytes(path);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName+ "\"")
+                .body(imageData);
+    }
 }

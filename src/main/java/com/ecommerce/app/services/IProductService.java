@@ -40,4 +40,6 @@ public interface IProductService {
 	 Page<ProductDetailsRequest> getAllBySubCategory(String query, Pageable pageable);
 	 
 	 Page<ProductDetailsRequest> getAllByQ(Pageable pageable);
+	 
+	 Page<ProductDetailsRequest> getAllByCategory(String query, Pageable pageable);
 }
