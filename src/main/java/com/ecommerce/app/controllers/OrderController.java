@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.stream.Stream;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -74,6 +78,9 @@ public class OrderController {
 
 	@Autowired
 	private IProductService productService;
+	
+	@Value("${file.upload.location}/invoice")
+    private String location;
 
 	@Autowired
 	public OrderController(RazorPayClientConfig razorpayClientConfig) throws RazorpayException {
@@ -216,4 +223,12 @@ public class OrderController {
     	}
     	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
 }
+    
+    @GetMapping("/invoice/image/{imageName}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String imageName) throws IOException {
+        Path path = Paths.get(location, imageName+".png");
+        byte[] imageData = Files.readAllBytes(path);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName+".png" + "\"")
+                .body(imageData);
+    }
 }

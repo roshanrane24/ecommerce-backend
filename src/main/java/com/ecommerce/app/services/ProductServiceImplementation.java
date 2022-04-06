@@ -3,12 +3,14 @@ package com.ecommerce.app.services;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ecommerce.app.dto.request.AddNewProduct;
 import com.ecommerce.app.dto.request.ProductDetailsRequest;
 import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
+import com.ecommerce.app.models.Category;
 import com.ecommerce.app.models.Product;
+import com.ecommerce.app.repository.CategoryRepository;
 import com.ecommerce.app.repository.ProductRepository;
 
 
@@ -30,6 +34,9 @@ public class ProductServiceImplementation implements IProductService {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public Product getProductById(String productId) {
@@ -72,8 +79,8 @@ public class ProductServiceImplementation implements IProductService {
 	@Override
 	public boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList) {
 		 for (ShoppingCartProductsRequest item : itemsList) {
-			Product p = productRepository.findById(item.get_id())
-					.orElseThrow(() -> new RuntimeException("Product by ID " + item.get_id() + " not found!!!!"));
+			Product p = productRepository.findById(item.getId())
+					.orElseThrow(() -> new RuntimeException("Product by ID " + item.getId() + " not found!!!!"));
 			if(p.getStock() < item.getQuantity())
 				return true;
 		}
@@ -83,8 +90,8 @@ public class ProductServiceImplementation implements IProductService {
 	@Override
 	public void reduceStock(List<ShoppingCartProductsRequest> itemsList) {
 		for (ShoppingCartProductsRequest item : itemsList) {
-			Product p = productRepository.findById(item.get_id())
-					.orElseThrow(() -> new RuntimeException("Product by ID " + item.get_id() + " not found!!!!"));
+			Product p = productRepository.findById(item.getId())
+					.orElseThrow(() -> new RuntimeException("Product by ID " + item.getId() + " not found!!!!"));
 			 p.setStock(p.getStock()-item.getQuantity());
 			 productRepository.save(p);
 				 
@@ -139,5 +146,18 @@ public class ProductServiceImplementation implements IProductService {
 		 
 		return  productRepository.getAllByQ(pageable);
 	}
-
+	
+	@Override
+    public Page<ProductDetailsRequest> getAllByCategory(String query, Pageable pageable) {
+        List<ProductDetailsRequest> productList = new ArrayList<>();
+        Category category = categoryRepository.findByCategoryName(query).orElseThrow(() -> new RuntimeException("Category by Name " + query + " not found!!!!"));
+        List<String> subCategories = category.getSubCategory();
+        List<Product> products = productRepository.findAll();
+        for(Product p : products) {
+            if(subCategories.contains(p.getSubCategoryName())) {
+                productList.add(new ProductDetailsRequest(p.getId(), p.getName(), p.getImage(), p.getPrice()));
+            }
+        }
+        return new PageImpl<>(productList, pageable, productList.size());
+    }
 }

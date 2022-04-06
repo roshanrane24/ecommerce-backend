@@ -31,7 +31,7 @@ public interface ProductRepository extends MongoRepository<Product,String>{
     		 fields = "{ _id: 1 , name: 1, image: 1, price:1 }")
     Page<ProductDetailsRequest> findAllByQ(String query, Pageable pageable);
 
-    @Query(value = "{subCategory: {$regex: ?0, $options: 'i'}}",
+    @Query(value = "{subCategoryName: {$regex: ?0, $options: 'i'}}",
     		sort="{product_added_date : -1}",
     		 fields = "{ _id: 1 , name: 1, image: 1, price:1 }")
     Page<ProductDetailsRequest> findAllBySubCategory(String query, Pageable pageable);
