@@ -79,9 +79,13 @@ public class OrderServiceImplementation implements IOrderService {
 	}
 
 	@Override
-	public Order getOrderByrazorpayId(String razorpayId) {
-		 
-		return orderRepository.findByRazorpayOrderId(razorpayId).orElseThrow(()->new RuntimeException("Razorpay Id Not Found !!"));
+	public Order getOrderByRazorpayId(Set<Order> orderList,String razorpayId) {
+		for (Order order : orderList) {
+			if(order.getRazorpayOrderId().equals(razorpayId)) {
+				return order;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -90,10 +94,10 @@ public class OrderServiceImplementation implements IOrderService {
 		 for (Order order : orderList) {
 			if(order.getId().equals(orderId)) {
 				orders.add(order);
+				return orders;
 			}
 		}
-		 
-		return orders;
+		return null;
 	}
 	
 }

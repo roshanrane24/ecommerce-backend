@@ -13,7 +13,7 @@ public interface IOrderService {
 	
 //	Stream<OrderRequest> getLatestOrders();
 	
-	Order getOrderByrazorpayId(String razorpayId);
+	Order getOrderByRazorpayId(Set<Order> orderList,String razorpayId);
 	
 	Double getOrderAmount(List<ShoppingCartProductsRequest> listOfProducts);
 	

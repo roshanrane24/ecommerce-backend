@@ -164,9 +164,12 @@ public class OrderController {
     }
 
 	@PostMapping("/transaction-handler")
-	public ResponseEntity<?> transactionHandler(@RequestBody TransactionRequest transactionRequest) {
+	public ResponseEntity<?> transactionHandler(@RequestHeader String authorization,@RequestBody TransactionRequest transactionRequest) {
 
-		Order order = orderService.getOrderByrazorpayId(transactionRequest.getRazorpayOrderId());
+		User user =  jwtUtils.getUserFromRequestHeader(authorization);
+		Order order = orderService.getOrderByRazorpayId(user.getOrders(),transactionRequest.getRazorpayOrderId());
+		//Order order = orderService.getOrderByrazorpayId(transactionRequest.getRazorpayOrderId());
+		if(order!=null) {
 		if(!(order.getOrderStatus()== OrderStatus.PAYMENT_PENDING || order.getOrderStatus()== OrderStatus.FAILED))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Already Done!"));
 		if(!transactionRequest.isPaid())
@@ -182,15 +185,17 @@ public class OrderController {
 		order.setTransactionId(transactionRequest.getTransactionId());
 		orderService.saveOrder(order);
 		return ResponseEntity.ok(new MessageResponse("Transaction completed Successfully"));
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
 	}
 	
     @GetMapping(value = "/invoice/{orderId}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> downloadInvoice(@RequestHeader String authorization,@PathVariable String orderId) throws JRException, IOException {
+    public ResponseEntity<?> downloadInvoice(@RequestHeader String authorization,@PathVariable String orderId) throws JRException, IOException {
         
- 
     	User user =  jwtUtils.getUserFromRequestHeader(authorization);
-    	  
-        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(orderService.getListOfOrder(user.getOrders(), orderId), false);
+    	List<Order> orders = orderService.getListOfOrder(user.getOrders(), orderId);
+    	if(orders!=null) {
+        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(orders, false);
 
         Map<String, Object> parameters = new HashMap<>();
 
@@ -207,5 +212,7 @@ public class OrderController {
         headers.set("Content-Disposition", "inline; filename="+orderId+".pdf");
 
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
+    	}
+    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
 }
 }
