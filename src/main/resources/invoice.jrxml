@@ -73,7 +73,7 @@
 	<pageHeader>
 		<band height="216" splitType="Stretch">
 			<staticText>
-				<reportElement x="280" y="19" width="110" height="18" uuid="d10abbc2-2a87-4cfd-b724-368ab1a65b25">
+				<reportElement x="310" y="19" width="110" height="18" uuid="d10abbc2-2a87-4cfd-b724-368ab1a65b25">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -88,7 +88,7 @@
 				<text><![CDATA[   Invoice Date :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="390" y="19" width="164" height="18" uuid="3249bcb7-cb3d-47de-8bff-bf62f7bafc6a"/>
+				<reportElement x="420" y="19" width="134" height="18" uuid="3249bcb7-cb3d-47de-8bff-bf62f7bafc6a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -96,10 +96,10 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-mm-yyyy").format(Date.from($F{orderDate}))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format(Date.from($F{orderDate}))]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="280" y="37" width="110" height="18" uuid="a1cf8b8b-f8e1-433c-921a-178231ca0bfd">
+				<reportElement x="310" y="37" width="110" height="18" uuid="a1cf8b8b-f8e1-433c-921a-178231ca0bfd">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -114,7 +114,7 @@
 				<text><![CDATA[   Invoice No :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="390" y="37" width="164" height="18" uuid="5a4329a5-5d43-46c9-bc34-423ea306dca0"/>
+				<reportElement x="420" y="37" width="134" height="18" uuid="5a4329a5-5d43-46c9-bc34-423ea306dca0"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -544,7 +544,7 @@
 							<textElement textAlignment="Center" verticalAlignment="Middle">
 								<font isBold="false"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$F{subTotal}*0.1]]></textFieldExpression>
+							<textFieldExpression><![CDATA[new Formatter().format("%.2f",$F{subTotal}*0.1)]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="374" y="0" width="61" height="30" uuid="f7a27d1c-9c66-44fd-a860-d96bb2140a2e">
@@ -572,7 +572,7 @@
 							<textElement textAlignment="Center" verticalAlignment="Middle">
 								<font isBold="false"/>
 							</textElement>
-							<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+							<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{price}/1.1))]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="0" y="0" width="50" height="30" uuid="eb88678a-866c-49c1-9cc5-5dc8fc3540f2"/>
@@ -600,7 +600,7 @@
 							<textElement textAlignment="Center" verticalAlignment="Middle">
 								<font isBold="false"/>
 							</textElement>
-							<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{subTotal}*1.1))]]></textFieldExpression>
+							<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{subTotal}))]]></textFieldExpression>
 						</textField>
 					</jr:listContents>
 				</jr:list>
@@ -631,7 +631,7 @@
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{orderAmount}*0.1)/1.1)]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{orderAmount}*0.1))]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="495" y="0" width="60" height="20" uuid="db1cdbe7-be09-4a1f-a836-0cd746812811"/>
@@ -648,7 +648,7 @@
 		</band>
 		<band height="160">
 			<textField>
-				<reportElement x="160" y="20" width="190" height="18" uuid="73d9ec12-59b8-48fe-85ed-29c0be51de88"/>
+				<reportElement x="180" y="20" width="190" height="18" uuid="73d9ec12-59b8-48fe-85ed-29c0be51de88"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -659,7 +659,7 @@
 				<textFieldExpression><![CDATA["  "+new Formatter().format("%.2f",$F{orderAmount})+"  INR"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="38" width="160" height="18" uuid="0edc734a-9092-4f4c-b3dd-aff99945f235">
+				<reportElement x="0" y="38" width="180" height="18" uuid="0edc734a-9092-4f4c-b3dd-aff99945f235">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -671,7 +671,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[  Payment Transaction ID :]]></text>
+				<text><![CDATA[  Payment Transaction ID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="68" width="300" height="90" uuid="46bf5f34-9740-48cf-96c1-ef61dbddf56e"/>
@@ -720,7 +720,7 @@ GST Registration No: 27AANAMASTE123]]></text>
 				<imageExpression><![CDATA["https://ecommerce-app-cdac-acts.herokuapp.com/api/orders/invoice/image/signature.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="0" y="20" width="160" height="18" uuid="b8239a5c-c1ef-479d-a2d0-5661122fe9e8">
+				<reportElement x="0" y="20" width="180" height="18" uuid="b8239a5c-c1ef-479d-a2d0-5661122fe9e8">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -732,10 +732,10 @@ GST Registration No: 27AANAMASTE123]]></text>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[  Invoice Value :]]></text>
+				<text><![CDATA[  Invoice Value]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="160" y="38" width="190" height="18" uuid="f908c231-8c98-49a7-860b-2cf37db2f997"/>
+				<reportElement x="180" y="38" width="190" height="18" uuid="f908c231-8c98-49a7-860b-2cf37db2f997"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
