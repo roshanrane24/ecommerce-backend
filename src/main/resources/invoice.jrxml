@@ -202,9 +202,8 @@
 					<textFieldExpression><![CDATA[$F{billingAddress}.getLine1()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfgj" positionType="Float" x="10" y="36" width="270" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="a78afece-ed6f-4afc-bbe0-e84050f9483c">
+					<reportElement key="" positionType="Float" x="10" y="36" width="270" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="a78afece-ed6f-4afc-bbe0-e84050f9483c">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-						<property name="com.jaspersoft.studio.element.name" value="hjf"/>
 					</reportElement>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -292,7 +291,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="0" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="4a182574-6d2e-4da2-a2a0-3daaaf01ffcf">
+					<reportElement key="" positionType="Float" x="10" y="0" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="4a182574-6d2e-4da2-a2a0-3daaaf01ffcf">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 					</reportElement>
 					<box>
@@ -305,9 +304,8 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getFullName()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="96" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="494cd65a-e3a1-4157-974f-efc1df3e8f69">
+					<reportElement key="" positionType="FixRelativeToBottom" x="10" y="96" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="494cd65a-e3a1-4157-974f-efc1df3e8f69">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-						<property name="com.jaspersoft.studio.element.name" value="dfg"/>
 					</reportElement>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -319,8 +317,9 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getMobileNumber()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="24" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="5522ccf3-d11b-4e1b-b9b2-2b08e7d8ac93">
+					<reportElement key="" positionType="Float" x="10" y="24" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="5522ccf3-d11b-4e1b-b9b2-2b08e7d8ac93">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<box>
 						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -332,7 +331,7 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getLine1()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="36" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="9afff81a-5f10-4287-be6e-420158bf92b1">
+					<reportElement key="" positionType="Float" x="10" y="36" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="9afff81a-5f10-4287-be6e-420158bf92b1">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 					</reportElement>
 					<box>
@@ -345,7 +344,7 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getLine2()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="48" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="3c34f000-ed9e-49af-a128-e323d18052b2">
+					<reportElement key="" positionType="Float" x="10" y="48" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="3c34f000-ed9e-49af-a128-e323d18052b2">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 					</reportElement>
 					<box>
@@ -358,7 +357,7 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getLandmark()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="60" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="f78287d3-3c66-4870-9fcf-fa66c500da69">
+					<reportElement key="" positionType="Float" x="10" y="60" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="f78287d3-3c66-4870-9fcf-fa66c500da69">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 					</reportElement>
 					<box>
@@ -371,7 +370,7 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getTownCity()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="72" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="173d00ae-2ea2-4718-b327-bad218a20a23">
+					<reportElement key="" positionType="Float" x="10" y="72" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="173d00ae-2ea2-4718-b327-bad218a20a23">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 					</reportElement>
 					<box>
@@ -384,7 +383,7 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getState()+", "+$F{shippingAddress}.getCountry()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="84" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="96922094-38cb-4596-b7d9-c5dfd932c9c8">
+					<reportElement key="" positionType="FixRelativeToBottom" x="10" y="84" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="96922094-38cb-4596-b7d9-c5dfd932c9c8">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 					</reportElement>
 					<box>
@@ -397,7 +396,7 @@
 					<textFieldExpression><![CDATA[$F{shippingAddress}.getPincode()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement key="dfsg" style="dgs" positionType="Float" x="10" y="12" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="4ec6a338-ff8d-4434-9704-d116e18e95d9">
+					<reportElement key="" positionType="Float" x="10" y="12" width="265" height="12" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="4ec6a338-ff8d-4434-9704-d116e18e95d9">
 						<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
