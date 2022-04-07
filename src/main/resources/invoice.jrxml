@@ -544,7 +544,7 @@
 							<textElement textAlignment="Center" verticalAlignment="Middle">
 								<font isBold="false"/>
 							</textElement>
-							<textFieldExpression><![CDATA[new Formatter().format("%.2f",$F{subTotal}*0.1)]]></textFieldExpression>
+							<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{subTotal}/1.1)*0.1)]]></textFieldExpression>
 						</textField>
 						<textField>
 							<reportElement x="374" y="0" width="61" height="30" uuid="f7a27d1c-9c66-44fd-a860-d96bb2140a2e">
