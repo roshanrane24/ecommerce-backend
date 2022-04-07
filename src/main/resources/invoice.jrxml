@@ -96,7 +96,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[Date.from($F{orderDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd-mm-yyyy").format(Date.from($F{orderDate}))]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="280" y="37" width="110" height="18" uuid="a1cf8b8b-f8e1-433c-921a-178231ca0bfd">
