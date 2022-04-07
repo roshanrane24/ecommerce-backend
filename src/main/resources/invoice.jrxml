@@ -631,7 +631,7 @@
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{orderAmount}*0.1))]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new Formatter().format("%.2f",($F{orderAmount}/1.1)*0.1)]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="495" y="0" width="60" height="20" uuid="db1cdbe7-be09-4a1f-a836-0cd746812811"/>
