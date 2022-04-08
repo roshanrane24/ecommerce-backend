@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.app.dto.request.AddAddressRequest;
 import com.ecommerce.app.dto.request.ChangeAddressRequest;
+import com.ecommerce.app.dto.request.PasswordChangeRequest;
 import com.ecommerce.app.dto.request.UserDetailsUpdateRequest;
 import com.ecommerce.app.dto.response.MessageResponse;
 import com.ecommerce.app.models.Address;
@@ -58,11 +59,24 @@ public class UserController {
 		User user =  jwtUtils.getUserFromRequestHeader(authorization);
 		user.setFirstname(userDetails.getFirstname());
 		user.setLastname(userDetails.getLastname());
-		user.setPassword(encoder.encode(userDetails.getPassword()));
+		//user.setPassword(encoder.encode(userDetails.getPassword()));
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("User details updated successfully"));
 	}
-
+	
+	// Change password Details
+		@PostMapping("/change-password")
+		public ResponseEntity<?> changePassword(@RequestHeader String authorization,
+				@RequestBody PasswordChangeRequest changePassword) {
+			User user =  jwtUtils.getUserFromRequestHeader(authorization);
+			 if(!encoder.matches(changePassword.getOldPassword(), user.getPassword())){
+				 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Old Password Mismatch"));
+			 }
+			user.setPassword(encoder.encode(changePassword.getNewPassword()));
+			userService.saveUser(user);
+			return ResponseEntity.ok(new MessageResponse("Password changed successfully"));
+		}
+	
 	// Add Address
 	@PostMapping("/address/add")
 	public ResponseEntity<?> addAddress(@RequestHeader String authorization,

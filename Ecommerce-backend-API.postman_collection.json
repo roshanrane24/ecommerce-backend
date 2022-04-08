@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5965cf31-189c-4797-891a-8f661dfad50e",
+		"_postman_id": "0e59cab2-2a99-4541-8ba7-2a4b26eb9958",
 		"name": "Ecommerce-backend-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -668,7 +668,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MTQ3NjMwLCJleHAiOjE2NDkyMzQwMzB9.8raM7hPxwSmDb54D91lXe-BtFkXl9FLlEbj9q09JwBrv7U12OaCKyOMrzmwjZ-5KYytgCS4pG6-CuUKB__hKxA",
 							"type": "string"
 						}
 					]
@@ -751,7 +751,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MDU4ODIxLCJleHAiOjE2NDkxNDUyMjF9.3gC1gF5zAPAdFhS27ndRj7_PQWiA5fRBx36puXySFsHZ6mG1QUynlizjRDhShl5pu5Ds0C0dNgv7QGosoyO87Q",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3NoYW5AZ21haWwuY29tIiwiaWF0IjoxNjQ5MTQ3NjMwLCJleHAiOjE2NDkyMzQwMzB9.8raM7hPxwSmDb54D91lXe-BtFkXl9FLlEbj9q09JwBrv7U12OaCKyOMrzmwjZ-5KYytgCS4pG6-CuUKB__hKxA",
 							"type": "string"
 						}
 					]
@@ -895,6 +895,128 @@
 						"api",
 						"admin",
 						"makeAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Password",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/user-details/change-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-details",
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Category",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/search/category?keyword=Mobiles&pageNumber=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"search",
+						"category"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "Mobiles"
+						},
+						{
+							"key": "pageNumber",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search SubCategory",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/search/sub-category?keyword=IOS&pageNumber=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"search",
+						"sub-category"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "IOS"
+						},
+						{
+							"key": "pageNumber",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Query",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/search?keyword=Windows&pageNumber=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"search"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "Windows"
+						},
+						{
+							"key": "pageNumber",
+							"value": "1"
+						}
 					]
 				}
 			},

@@ -6,14 +6,12 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class UserDetailsUpdateRequest {
-
+public class PasswordChangeRequest {
 	@NotBlank
-	@Size(min = 3, max = 20)
-	private String firstname;
-
+	@Size(min = 6, max = 40)
+	private String oldPassword;
+	
 	@NotBlank
-	@Size(min = 3, max = 20)
-	private String lastname;
-
+	@Size(min = 6, max = 40)
+	private String newPassword;
 }
