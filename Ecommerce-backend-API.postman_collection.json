@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n     \"email\":\"roshan@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+					"raw": "{\r\n     \"email\":\"roshan@gmail.com\",\r\n    \"password\":\"1234567890\",\r\n    \"isRemembered\": true\r\n    \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

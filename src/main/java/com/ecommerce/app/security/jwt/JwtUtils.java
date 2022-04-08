@@ -32,7 +32,7 @@ public class JwtUtils {
 	private String jwtSecret;
 
 	@Value("${ecommerce.app.jwtExpirationMs}")
-	private int jwtExpirationMs;
+	private long jwtExpirationMs;
 
 	public String generateJwtToken(Authentication authentication, Boolean isRemembered) {
 
