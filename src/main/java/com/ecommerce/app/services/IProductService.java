@@ -14,19 +14,19 @@ import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
 import com.ecommerce.app.models.Product;
 
 public interface IProductService {
-	
+
 	Product getProductById(String productId);
 
 	Stream<ProductDetailsRequest> getLatestProducts();
-	
+
 	Stream<ProductDetailsRequest> getMostVisitedProducts();
 
 	Product updateVisits(Product product);
-	
+
 	ProductDetailsRequest getWishListProductById(String productId);
-	
+
 	ShoppingCartProductsRequest getShoppingCartProductById(String productId, Integer quantity);
-	
+
 	boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList);
 
 	void reduceStock(List<ShoppingCartProductsRequest> itemList);
@@ -34,12 +34,12 @@ public interface IProductService {
 	Product addImage(String productId, MultipartFile image) throws IllegalStateException, IOException;
 
 	Product saveProductToDb(AddNewProduct newProduct);
-	
-	 Page<ProductDetailsRequest> getAllByQ(String query, Pageable pageable);
-	
-	 Page<ProductDetailsRequest> getAllBySubCategory(String query, Pageable pageable);
-	 
-	 Page<ProductDetailsRequest> getAllByQ(Pageable pageable);
-	 
-	 Page<ProductDetailsRequest> getAllByCategory(String query, Pageable pageable);
+
+	Page<ProductDetailsRequest> getAllByQ(String query, Pageable pageable);
+
+	Page<ProductDetailsRequest> getAllBySubCategory(String query, Pageable pageable);
+
+	Page<ProductDetailsRequest> getAllByQ(Pageable pageable);
+
+	Page<ProductDetailsRequest> getAllByCategory(String query, Pageable pageable);
 }

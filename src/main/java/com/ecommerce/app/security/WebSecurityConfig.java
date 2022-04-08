@@ -54,19 +54,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable()
-			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
-			.antMatchers("/api/test/**").permitAll()
-			.antMatchers("/api/categories/**").permitAll()
-			.antMatchers("/api/products/**").permitAll()
- 
-			.antMatchers("/api/orders/**").permitAll()
- 
-			.antMatchers("/api/search/**").permitAll()
- 
-			.anyRequest().authenticated();
+		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+				.antMatchers("/api/auth/**").permitAll()
+				.antMatchers("/api/test/**").permitAll()
+				.antMatchers("/api/categories/**").permitAll()
+				.antMatchers("/api/products/**").permitAll()
+				.antMatchers("/api/search/**").permitAll()
+				.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

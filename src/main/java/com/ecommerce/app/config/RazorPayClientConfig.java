@@ -8,6 +8,6 @@ import lombok.Data;
 @Component
 @ConfigurationProperties(prefix = "razorpay")
 public class RazorPayClientConfig {
-    private String key;
-    private String secret;
+	private String key;
+	private String secret;
 }

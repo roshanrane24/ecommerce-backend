@@ -27,19 +27,23 @@ public class JwtUtils {
 
 	@Autowired
 	IUserService userService;
-	
+
 	@Value("${ecommerce.app.jwtSecret}")
 	private String jwtSecret;
 
 	@Value("${ecommerce.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 
-	public String generateJwtToken(Authentication authentication) {
+	public String generateJwtToken(Authentication authentication, Boolean isRemembered) {
 
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
+		if (!isRemembered) {
+			return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
+					.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+					.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		}
 		return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 30))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 	}
 
@@ -72,11 +76,11 @@ public class JwtUtils {
 		}
 		return null;
 	}
-	
+
 	public User getUserFromRequestHeader(String authorization) {
-      String token = getTokenFromHeader(authorization);
-      String email = getUserNameFromJwtToken(token);
-      
-      return userService.getByEmail(email);
+		String token = getTokenFromHeader(authorization);
+		String email = getUserNameFromJwtToken(token);
+
+		return userService.getByEmail(email);
 	}
 }

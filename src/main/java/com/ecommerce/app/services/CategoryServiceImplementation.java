@@ -28,9 +28,9 @@ public class CategoryServiceImplementation implements ICategoryService {
 	}
 
 	@Override
-    public Category getCategoryByName(String categoryName) {
-        
-        return categoryRepository.findByCategoryName(categoryName)
-                .orElseThrow(() -> new RuntimeException("Category by Name " + categoryName + " not found!!!!"));
-    }
+	public Category getCategoryByName(String categoryName) {
+
+		return categoryRepository.findByCategoryName(categoryName)
+				.orElseThrow(() -> new RuntimeException("Category by Name " + categoryName + " not found!!!!"));
+	}
 }

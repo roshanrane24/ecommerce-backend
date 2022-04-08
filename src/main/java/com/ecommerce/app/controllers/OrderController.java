@@ -78,9 +78,9 @@ public class OrderController {
 
 	@Autowired
 	private IProductService productService;
-	
+
 	@Value("${file.upload.location}/invoice")
-    private String location;
+	private String location;
 
 	@Autowired
 	public OrderController(RazorPayClientConfig razorpayClientConfig) throws RazorpayException {
@@ -101,8 +101,8 @@ public class OrderController {
 	// For User
 	@GetMapping("/display")
 	public ResponseEntity<?> getLatestOrders(@RequestHeader String authorization) {
-		 
-		User user =  jwtUtils.getUserFromRequestHeader(authorization);
+
+		User user = jwtUtils.getUserFromRequestHeader(authorization);
 		List<Order> orders;
 		try (Stream<Order> stream = user.getOrders().stream()
 				.sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()))) {
@@ -112,9 +112,11 @@ public class OrderController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<?> createOrder(@RequestHeader String authorization, @RequestBody NewOrderRequest newOrderRequest) {
-		User user =  jwtUtils.getUserFromRequestHeader(authorization);
-		if (newOrderRequest.getProductsList().isEmpty() || newOrderRequest.getBillingAddressId() == null || newOrderRequest.getShippingAddressId() == null)
+	public ResponseEntity<?> createOrder(@RequestHeader String authorization,
+			@RequestBody NewOrderRequest newOrderRequest) {
+		User user = jwtUtils.getUserFromRequestHeader(authorization);
+		if (newOrderRequest.getProductsList().isEmpty() || newOrderRequest.getBillingAddressId() == null
+				|| newOrderRequest.getShippingAddressId() == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Cannot create order !!!"));
 		Order newOrder = orderService.createNewOrder(orderService.createNewOrderRequest(newOrderRequest, user));
 		if (productService.stockUnavailable(newOrder.getItemList()))
@@ -126,110 +128,115 @@ public class OrderController {
 //		orderService.saveOrder(newOrder);
 //		Order savedOrder = orderRepository.findById(newOrder.getId())
 //				.orElseThrow(() -> new RuntimeException("Order not found."));
-		
+
 		OrderResponse razorPay = null;
-        try {
-            // The transaction amount is expressed in the currency subunit, such
-            // as paise (in case of INR)
-            String amountInPaise = convertRupeeToPaise(newOrder.getOrderAmount().toString());
-            // Create an order in RazorPay and get the order id
-            com.razorpay.Order order = createRazorPayOrder(amountInPaise);
-            razorPay = getOrderResponse((String)order.get("id"));
-            newOrder.setRazorpayOrderId(razorPay.getRazorpayOrderId());
-            // Save order in the database
-            
-            user.getOrders().add(orderService.saveOrder(newOrder));
-    		user.setShoppingCart(new ArrayList<>());
-    		userService.saveUser(user);
-        } catch (RazorpayException e) {
-            
-            return ResponseEntity.ok("Did't work!!");
-        }
-        return ResponseEntity.ok(razorPay);
+		try {
+			// The transaction amount is expressed in the currency subunit, such
+			// as paise (in case of INR)
+			String amountInPaise = convertRupeeToPaise(newOrder.getOrderAmount().toString());
+			// Create an order in RazorPay and get the order id
+			com.razorpay.Order order = createRazorPayOrder(amountInPaise);
+			razorPay = getOrderResponse((String) order.get("id"));
+			newOrder.setRazorpayOrderId(razorPay.getRazorpayOrderId());
+			// Save order in the database
+
+			user.getOrders().add(orderService.saveOrder(newOrder));
+			user.setShoppingCart(new ArrayList<>());
+			userService.saveUser(user);
+		} catch (RazorpayException e) {
+
+			return ResponseEntity.ok("Did't work!!");
+		}
+		return ResponseEntity.ok(razorPay);
 
 	}
 
-    private OrderResponse getOrderResponse(String orderId) {
-        OrderResponse razorPay = new OrderResponse();
-      
-        razorPay.setRazorpayOrderId(orderId);
-        
-        return razorPay;
-    }
+	private OrderResponse getOrderResponse(String orderId) {
+		OrderResponse razorPay = new OrderResponse();
+
+		razorPay.setRazorpayOrderId(orderId);
+
+		return razorPay;
+	}
+
 	private com.razorpay.Order createRazorPayOrder(String amount) throws RazorpayException {
-        JSONObject options = new JSONObject();
-        options.put("amount", amount);
-        options.put("currency", "INR");
-        options.put("receipt", "txn_123456");
-        return client.Orders.create(options);
-    }
- 
-    private String convertRupeeToPaise(String paise) {
-        BigDecimal b = new BigDecimal(paise);
-        BigDecimal value = b.multiply(new BigDecimal("100"));
-        return value.setScale(0, RoundingMode.UP).toString();
-    }
+		JSONObject options = new JSONObject();
+		options.put("amount", amount);
+		options.put("currency", "INR");
+		options.put("receipt", "txn_123456");
+		return client.Orders.create(options);
+	}
+
+	private String convertRupeeToPaise(String paise) {
+		BigDecimal b = new BigDecimal(paise);
+		BigDecimal value = b.multiply(new BigDecimal("100"));
+		return value.setScale(0, RoundingMode.UP).toString();
+	}
 
 	@PostMapping("/transaction-handler")
-	public ResponseEntity<?> transactionHandler(@RequestHeader String authorization,@RequestBody TransactionRequest transactionRequest) {
+	public ResponseEntity<?> transactionHandler(@RequestHeader String authorization,
+			@RequestBody TransactionRequest transactionRequest) {
 
-		User user =  jwtUtils.getUserFromRequestHeader(authorization);
-		Order order = orderService.getOrderByRazorpayId(user.getOrders(),transactionRequest.getRazorpayOrderId());
-		//Order order = orderService.getOrderByrazorpayId(transactionRequest.getRazorpayOrderId());
-		if(order!=null) {
-		if(!(order.getOrderStatus()== OrderStatus.PAYMENT_PENDING || order.getOrderStatus()== OrderStatus.FAILED))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Already Done!"));
-		if(!transactionRequest.isPaid())
-		{
-			order.setOrderStatus(OrderStatus.FAILED);
+		User user = jwtUtils.getUserFromRequestHeader(authorization);
+		Order order = orderService.getOrderByRazorpayId(user.getOrders(), transactionRequest.getRazorpayOrderId());
+		// Order order =
+		// orderService.getOrderByrazorpayId(transactionRequest.getRazorpayOrderId());
+		if (order != null) {
+			if (!(order.getOrderStatus() == OrderStatus.PAYMENT_PENDING
+					|| order.getOrderStatus() == OrderStatus.FAILED))
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment Already Done!"));
+			if (!transactionRequest.isPaid()) {
+				order.setOrderStatus(OrderStatus.FAILED);
+				orderService.saveOrder(order);
+				return ResponseEntity.ok(new MessageResponse("Payment Failed !!"));
+			}
+			System.out.println(transactionRequest.toString());
+
+			productService.reduceStock(order.getItemList());
+
+			order.setOrderStatus(OrderStatus.PLACED);
+			order.setTransactionId(transactionRequest.getTransactionId());
 			orderService.saveOrder(order);
-			return ResponseEntity.ok(new MessageResponse("Payment Failed !!"));
-		}
-		System.out.println(transactionRequest.toString());
-		
-		productService.reduceStock(order.getItemList());
-
-		order.setOrderStatus(OrderStatus.PLACED);
-		order.setTransactionId(transactionRequest.getTransactionId());
-		orderService.saveOrder(order);
-		return ResponseEntity.ok(order.getId());
+			return ResponseEntity.ok(order.getId());
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
 	}
-	
-	//RequestHeader removed for testing
+
+	// RequestHeader removed for testing
 	@GetMapping(value = "/invoice/{orderId}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<?> downloadInvoice(@PathVariable String orderId) throws JRException, IOException {
-        
-        List<Order> orders = new ArrayList<>();
- 
-        if(orders.add(orderService.getOrderById(orderId))) {
-        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(orders, false);
+	public ResponseEntity<?> downloadInvoice(@RequestHeader String authorization, @PathVariable String orderId)
+			throws JRException, IOException {
 
-        JasperReport compileReport = JasperCompileManager
-                .compileReport(new FileInputStream("src/main/resources/invoice.jrxml"));
+		User user = jwtUtils.getUserFromRequestHeader(authorization);
+		List<Order> orders = orderService.getListOfOrder(user.getOrders(), orderId);
 
-        Map<String, Object> parameters = new HashMap<>();
-        
-        JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, parameters, beanCollectionDataSource);
+		if (!orders.isEmpty()) {
+			JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(orders, false);
 
-        //JasperExportManager.exportReportToPdf(jasperPrint, orderId + ".pdf");
+			JasperReport compileReport = JasperCompileManager
+					.compileReport(new FileInputStream("src/main/resources/invoice.jrxml"));
 
-        byte data[] = JasperExportManager.exportReportToPdf(jasperPrint);
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Disposition", "inline; filename="+orderId+".pdf");
+			Map<String, Object> parameters = new HashMap<>();
 
-        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
-}
-    
-    @GetMapping("/invoice/image/{imageName}")
-    public ResponseEntity<byte[]> getFile(@PathVariable String imageName) throws IOException {
-        Path path = Paths.get(location, imageName);
-        byte[] imageData = Files.readAllBytes(path);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName+ "\"")
-                .body(imageData);
-    }
+			JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, parameters, beanCollectionDataSource);
+
+			// JasperExportManager.exportReportToPdf(jasperPrint, orderId + ".pdf");
+
+			byte data[] = JasperExportManager.exportReportToPdf(jasperPrint);
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Content-Disposition", "inline; filename=" + orderId + ".pdf");
+
+			return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Order Not Found"));
+	}
+
+	@GetMapping("/invoice/image/{imageName}")
+	public ResponseEntity<byte[]> getFile(@PathVariable String imageName) throws IOException {
+		Path path = Paths.get(location, imageName);
+		byte[] imageData = Files.readAllBytes(path);
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageName + "\"")
+				.body(imageData);
+	}
 }

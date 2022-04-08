@@ -1,6 +1,5 @@
 package com.ecommerce.app.services;
 
- 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,16 +20,16 @@ import com.ecommerce.app.repository.UserRepository;
 @Service
 @Transactional
 public class OrderServiceImplementation implements IOrderService {
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	OrderRepository orderRepository;
-	
+
 	@Autowired
 	IProductService productService;
-	
+
 //	@Override
 //	public Stream<OrderRequest> getLatestOrders() {
 //		
@@ -39,10 +38,10 @@ public class OrderServiceImplementation implements IOrderService {
 //	
 	@Override
 	public Double getOrderAmount(List<ShoppingCartProductsRequest> listOfProducts) {
-		Double amount=0.0;
-		
-		for(ShoppingCartProductsRequest product : listOfProducts) {
-			amount+=product.getSubTotal();
+		Double amount = 0.0;
+
+		for (ShoppingCartProductsRequest product : listOfProducts) {
+			amount += product.getSubTotal();
 		}
 		return amount;
 	}
@@ -54,32 +53,34 @@ public class OrderServiceImplementation implements IOrderService {
 
 	@Override
 	public Order getOrderById(String orderId) {
-		 
-		return orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("Order Id Not Found !!"));
+
+		return orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order Id Not Found !!"));
 	}
 
 	@Override
 	public Order createNewOrder(OrderRequest orderRequest) {
-		Order newOrder = new Order(getOrderAmount(orderRequest.getListOfProducts()),orderRequest.getListOfProducts(), orderRequest.getShippingAddress() , orderRequest.getBillingAddress());
+		Order newOrder = new Order(getOrderAmount(orderRequest.getListOfProducts()), orderRequest.getListOfProducts(),
+				orderRequest.getShippingAddress(), orderRequest.getBillingAddress());
 		return newOrder;
 	}
 
 	@Override
 	public OrderRequest createNewOrderRequest(NewOrderRequest newOrderRequest, User user) {
 		OrderRequest orderRequest = new OrderRequest();
-		for(ProductRequest productRequest : newOrderRequest.getProductsList()) {
-			orderRequest.getListOfProducts().add(productService.getShoppingCartProductById(productRequest.getProductId(), productRequest.getQuantity()));
+		for (ProductRequest productRequest : newOrderRequest.getProductsList()) {
+			orderRequest.getListOfProducts().add(productService
+					.getShoppingCartProductById(productRequest.getProductId(), productRequest.getQuantity()));
 		}
 		orderRequest.setBillingAddress(user.getAddresses().get(newOrderRequest.getBillingAddressId()));
 		orderRequest.setShippingAddress(user.getAddresses().get(newOrderRequest.getShippingAddressId()));
-		
+
 		return orderRequest;
 	}
 
 	@Override
-	public Order getOrderByRazorpayId(Set<Order> orderList,String razorpayId) {
+	public Order getOrderByRazorpayId(Set<Order> orderList, String razorpayId) {
 		for (Order order : orderList) {
-			if(order.getRazorpayOrderId().equals(razorpayId)) {
+			if (order.getRazorpayOrderId().equals(razorpayId)) {
 				return order;
 			}
 		}
@@ -88,14 +89,14 @@ public class OrderServiceImplementation implements IOrderService {
 
 	@Override
 	public List<Order> getListOfOrder(Set<Order> orderList, String orderId) {
-		 List<Order> orders = new ArrayList<>();
-		 for (Order order : orderList) {
-			if(order.getId().equals(orderId)) {
+		List<Order> orders = new ArrayList<>();
+		for (Order order : orderList) {
+			if (order.getId().equals(orderId)) {
 				orders.add(order);
 				return orders;
 			}
 		}
 		return null;
 	}
-	
+
 }

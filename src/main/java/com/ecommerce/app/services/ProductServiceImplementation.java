@@ -24,17 +24,16 @@ import com.ecommerce.app.models.Product;
 import com.ecommerce.app.repository.CategoryRepository;
 import com.ecommerce.app.repository.ProductRepository;
 
-
 @Service
 @Transactional
 public class ProductServiceImplementation implements IProductService {
 
 	@Value("${file.upload.location}/products")
 	private String location;
-	
+
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
 
@@ -56,7 +55,7 @@ public class ProductServiceImplementation implements IProductService {
 
 	@Override
 	public Product updateVisits(Product product) {
-		product.setVisits(product.getVisits()+1);
+		product.setVisits(product.getVisits() + 1);
 		return productRepository.save(product);
 	}
 
@@ -64,24 +63,26 @@ public class ProductServiceImplementation implements IProductService {
 	public ProductDetailsRequest getWishListProductById(String productId) {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new RuntimeException("Product by ID " + productId + " not found!!!!"));
-		ProductDetailsRequest productsRequest = new ProductDetailsRequest(productId, product.getName(), product.getImage(), product.getPrice());
+		ProductDetailsRequest productsRequest = new ProductDetailsRequest(productId, product.getName(),
+				product.getImage(), product.getPrice());
 		return productsRequest;
 	}
-	
+
 	@Override
-    public ShoppingCartProductsRequest getShoppingCartProductById(String productId, Integer quantity) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product by ID " + productId + " not found!!!!"));
-        ShoppingCartProductsRequest productsRequest = new ShoppingCartProductsRequest(productId, product.getName(), product.getImage(), product.getPrice(), quantity);
-        return productsRequest;
-    }
+	public ShoppingCartProductsRequest getShoppingCartProductById(String productId, Integer quantity) {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new RuntimeException("Product by ID " + productId + " not found!!!!"));
+		ShoppingCartProductsRequest productsRequest = new ShoppingCartProductsRequest(productId, product.getName(),
+				product.getImage(), product.getPrice(), quantity);
+		return productsRequest;
+	}
 
 	@Override
 	public boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList) {
-		 for (ShoppingCartProductsRequest item : itemsList) {
+		for (ShoppingCartProductsRequest item : itemsList) {
 			Product p = productRepository.findById(item.getId())
 					.orElseThrow(() -> new RuntimeException("Product by ID " + item.getId() + " not found!!!!"));
-			if(p.getStock() < item.getQuantity())
+			if (p.getStock() < item.getQuantity())
 				return true;
 		}
 		return false;
@@ -92,15 +93,15 @@ public class ProductServiceImplementation implements IProductService {
 		for (ShoppingCartProductsRequest item : itemsList) {
 			Product p = productRepository.findById(item.getId())
 					.orElseThrow(() -> new RuntimeException("Product by ID " + item.getId() + " not found!!!!"));
-			 p.setStock(p.getStock()-item.getQuantity());
-			 productRepository.save(p);
-				 
+			p.setStock(p.getStock() - item.getQuantity());
+			productRepository.save(p);
+
 		}
-	 
+
 	}
-	
+
 	@Override
-	public Product saveProductToDb(AddNewProduct newProduct){
+	public Product saveProductToDb(AddNewProduct newProduct) {
 
 		Product p = new Product();
 
@@ -117,57 +118,58 @@ public class ProductServiceImplementation implements IProductService {
 
 		return productRepository.save(p);
 	}
-	
+
 	@Override
 	public Product addImage(String productId, MultipartFile image) throws IllegalStateException, IOException {
 		Product p = productRepository.findById(productId).get();
 
-		image.transferTo(new File(location, productId+".jpeg"));
+		image.transferTo(new File(location, productId + ".jpeg"));
 
-		p.setImage(productId+".jpeg");
-		
+		p.setImage(productId + ".jpeg");
+
 		return productRepository.save(p);
 	}
 
 	@Override
 	public Page<ProductDetailsRequest> getAllByQ(String query, Pageable pageable) {
-		 
+
 		return productRepository.findAllByQ(query, pageable);
 	}
 
 	@Override
 	public Page<ProductDetailsRequest> getAllBySubCategory(String query, Pageable pageable) {
-	
+
 		return productRepository.findAllBySubCategory(query, pageable);
 	}
 
 	@Override
 	public Page<ProductDetailsRequest> getAllByQ(Pageable pageable) {
-		 
-		return  productRepository.getAllByQ(pageable);
+
+		return productRepository.getAllByQ(pageable);
 	}
-	
+
 	@Override
-    public Page<ProductDetailsRequest> getAllByCategory(String query, Pageable pageable) {
-        List<ProductDetailsRequest> productList = new ArrayList<>();
-        Category category = categoryRepository.findByCategoryName(query).orElseThrow(() -> new RuntimeException("Category by Name " + query + " not found!!!!"));
-        List<String> subCategories = category.getSubCategory();
-        List<Product> products = productRepository.findAll();
-        for(Product p : products) {
-            if(subCategories.contains(p.getSubCategoryName())) {
-                productList.add(new ProductDetailsRequest(p.getId(), p.getName(), p.getImage(), p.getPrice()));
-            }
-        }
-        int fromIndex = pageable.getPageNumber() * pageable.getPageSize();
-        int toIndex = (pageable.getPageNumber() + 1) * pageable.getPageSize();
-        
-        List<ProductDetailsRequest> subList = new ArrayList<>();
-        
-        if(toIndex > productList.size())
-            toIndex = productList.size();
-        
-        if(fromIndex < productList.size())
-            subList = productList.subList(fromIndex, toIndex);
-        return new PageImpl<>(subList, pageable, productList.size());
-    }
+	public Page<ProductDetailsRequest> getAllByCategory(String query, Pageable pageable) {
+		List<ProductDetailsRequest> productList = new ArrayList<>();
+		Category category = categoryRepository.findByCategoryName(query)
+				.orElseThrow(() -> new RuntimeException("Category by Name " + query + " not found!!!!"));
+		List<String> subCategories = category.getSubCategory();
+		List<Product> products = productRepository.findAll();
+		for (Product p : products) {
+			if (subCategories.contains(p.getSubCategoryName())) {
+				productList.add(new ProductDetailsRequest(p.getId(), p.getName(), p.getImage(), p.getPrice()));
+			}
+		}
+		int fromIndex = pageable.getPageNumber() * pageable.getPageSize();
+		int toIndex = (pageable.getPageNumber() + 1) * pageable.getPageSize();
+
+		List<ProductDetailsRequest> subList = new ArrayList<>();
+
+		if (toIndex > productList.size())
+			toIndex = productList.size();
+
+		if (fromIndex < productList.size())
+			subList = productList.subList(fromIndex, toIndex);
+		return new PageImpl<>(subList, pageable, productList.size());
+	}
 }

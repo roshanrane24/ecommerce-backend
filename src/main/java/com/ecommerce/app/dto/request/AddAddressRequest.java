@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class AddAddressRequest {
- 
+
 	@NotBlank
 	private String typeOfAddress;
 	@NotBlank
@@ -21,7 +21,7 @@ public class AddAddressRequest {
 	private Integer pincode;
 	@NotBlank
 	private String line1;
-	 
+
 	private String line2;
 	@NotBlank
 	private String landmark;

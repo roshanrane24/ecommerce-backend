@@ -22,30 +22,29 @@ import com.ecommerce.app.services.ICategoryService;
 @RestController
 @RequestMapping("/api/categories")
 @CrossOrigin("*")
-public class CategoryController{
-	
+public class CategoryController {
+
 	@Autowired
 	private ICategoryService categoryService;
-	
+
 	@Value("${file.upload.location}/category")
 	private String location;
-	
+
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllCategory(){
+	public ResponseEntity<?> getAllCategory() {
 		System.out.println("in get all categories");
 		return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
 	}
-	
-	
-	//http://localhost:8080/api/products/image/1
-  	@GetMapping("/image/{categoryId}")
-  	// Can be tested with browser. Will work fine with react / angular app.
-  	public ResponseEntity<byte[]> getFile(@PathVariable String categoryId) throws IOException {
-  		Category category = categoryService.getCategoryById(categoryId) ;
-  		Path path = Paths.get(location, category.getImageName());
-  		byte[] imageData = Files.readAllBytes(path);
-  		return ResponseEntity.ok()
-  				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + category.getImageName() + "\"")
-  				.body(imageData);
-  	}
+
+	// http://localhost:8080/api/products/image/1
+	@GetMapping("/image/{categoryId}")
+	// Can be tested with browser. Will work fine with react / angular app.
+	public ResponseEntity<byte[]> getFile(@PathVariable String categoryId) throws IOException {
+		Category category = categoryService.getCategoryById(categoryId);
+		Path path = Paths.get(location, category.getImageName());
+		byte[] imageData = Files.readAllBytes(path);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + category.getImageName() + "\"")
+				.body(imageData);
+	}
 }

@@ -7,5 +7,5 @@ public class TransactionRequest {
 	private String transactionId;
 	private String razorpayOrderId;
 	private boolean isPaid;
-	 
+
 }

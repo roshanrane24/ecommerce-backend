@@ -36,7 +36,7 @@ import com.ecommerce.app.security.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-	
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -59,33 +59,26 @@ public class AuthController {
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
+		String jwt = jwtUtils.generateJwtToken(authentication, loginRequest.getIsRemembered());
+
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetails.getId(), 
-												 userDetails.getEmail(), 
-												 userDetails.getFirstname(),
-												 userDetails.getLastname(),
-												 roles));
+		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getEmail(),
+				userDetails.getFirstname(), userDetails.getLastname(), roles));
 	}
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Email is already in use!"));
+			return ResponseEntity.badRequest().body(new MessageResponse("Email is already in use!"));
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(),signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+		User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRoles();
 		Set<Role> roles = new HashSet<>();
@@ -96,7 +89,7 @@ public class AuthController {
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
-				switch (role) { //change to if else later
+				switch (role) { // change to if else later
 				case "admin":
 					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Role is not found."));
