@@ -8,7 +8,7 @@ import com.ecommerce.app.models.ERole;
 import com.ecommerce.app.models.Role;
 
 public interface RoleRepository extends MongoRepository<Role, String> {
-	
-	//finder method pattern
+
+	// finder method pattern
 	Optional<Role> findByName(ERole name);
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class AddNewProduct {
-	@NotBlank 
+	@NotBlank
 	@Size(max = 100)
 	private String name;
 	@NotBlank
@@ -21,5 +21,5 @@ public class AddNewProduct {
 	@NotBlank
 	private String subCategoryName;
 	@NotBlank
-	private Map<String,String> additionalDetails;
+	private Map<String, String> additionalDetails;
 }

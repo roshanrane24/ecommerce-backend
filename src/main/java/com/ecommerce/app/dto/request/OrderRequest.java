@@ -6,11 +6,12 @@ import java.util.List;
 import com.ecommerce.app.models.Address;
 
 import lombok.Data;
+
 @Data
 public class OrderRequest {
-	
-	List<ShoppingCartProductsRequest> listOfProducts=new ArrayList<>();
+
+	List<ShoppingCartProductsRequest> listOfProducts = new ArrayList<>();
 	Address billingAddress;
 	Address shippingAddress;
-	
+
 }

@@ -18,7 +18,7 @@ public class UserDetailsImpl implements UserDetails {
 	private String id;
 
 	private String firstname;
-	
+
 	private String lastname;
 
 	private String email;
@@ -40,16 +40,10 @@ public class UserDetailsImpl implements UserDetails {
 
 	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
-				.collect(Collectors.toList());
+				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-		return new UserDetailsImpl(
-				user.getId(),  
-				user.getEmail(),
-				user.getPassword(),
-				user.getFirstname(),
-				user.getLastname(),
-				authorities);
+		return new UserDetailsImpl(user.getId(), user.getEmail(), user.getPassword(), user.getFirstname(),
+				user.getLastname(), authorities);
 	}
 
 	@Override
@@ -64,11 +58,11 @@ public class UserDetailsImpl implements UserDetails {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public String getFirstname() {
 		return firstname;
 	}
-	
+
 	public String getLastname() {
 		return lastname;
 	}

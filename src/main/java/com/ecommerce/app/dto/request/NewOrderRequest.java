@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class NewOrderRequest {
-	List<ProductRequest> productsList=new ArrayList<>();
+	List<ProductRequest> productsList = new ArrayList<>();
 	Integer billingAddressId;
 	Integer shippingAddressId;
 }

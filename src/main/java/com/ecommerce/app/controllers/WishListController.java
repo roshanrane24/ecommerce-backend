@@ -36,16 +36,17 @@ public class WishListController {
 	// for displaying wishlist
 	@GetMapping("/display")
 	public ResponseEntity<?> displayWishList(@RequestHeader String authorization) {
-		User user =  jwtUtils.getUserFromRequestHeader(authorization);
+		User user = jwtUtils.getUserFromRequestHeader(authorization);
 		return new ResponseEntity<>(user.getWishList(), HttpStatus.OK);
 	}
 
 	// for adding to wishlist
 	@PostMapping("/add")
 	public ResponseEntity<?> addToWishList(@RequestHeader String authorization, @RequestBody ProductRequest wishList) {
-		User user =  jwtUtils.getUserFromRequestHeader(authorization);
+		User user = jwtUtils.getUserFromRequestHeader(authorization);
 		if (user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Product already added to Wish List"));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(new MessageResponse("Product already added to Wish List"));
 		user.getWishList().add(productService.getWishListProductById(wishList.getProductId()));
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Product added to wishlist successfully!"));
@@ -53,8 +54,9 @@ public class WishListController {
 
 	// for adding to wishlist
 	@DeleteMapping("/remove")
-	public ResponseEntity<?> removeFromWishList(@RequestHeader String authorization, @RequestBody ProductRequest wishList) {
-		User user =  jwtUtils.getUserFromRequestHeader(authorization);
+	public ResponseEntity<?> removeFromWishList(@RequestHeader String authorization,
+			@RequestBody ProductRequest wishList) {
+		User user = jwtUtils.getUserFromRequestHeader(authorization);
 		if (user.getWishList().isEmpty())
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wishlist is Empty");
 		if (!user.getWishList().contains(productService.getWishListProductById(wishList.getProductId())))

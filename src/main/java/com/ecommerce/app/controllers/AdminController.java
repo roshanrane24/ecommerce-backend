@@ -29,23 +29,25 @@ public class AdminController {
 
 	@Autowired
 	IProductService productService;
-	
+
 	@Autowired
 	IUserService userService;
 
 	@Autowired
 	IRoleService roleService;
-	
+
 	@Autowired
 	JwtUtils jwtUtils;
 
 	@PostMapping("/addProduct")
-	public ResponseEntity<?> addNewProducts(@RequestHeader String authorization,@RequestBody AddNewProduct newProduct) {
-		 
-		User userAdmin =  jwtUtils.getUserFromRequestHeader(authorization);
-		if(!userAdmin.getRoles().contains(roleService.getByName(ERole.ROLE_ADMIN)))
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Admin Credentials Required!!!"));
-		
+	public ResponseEntity<?> addNewProducts(@RequestHeader String authorization,
+			@RequestBody AddNewProduct newProduct) {
+
+		User userAdmin = jwtUtils.getUserFromRequestHeader(authorization);
+		if (!userAdmin.getRoles().contains(roleService.getByName(ERole.ROLE_ADMIN)))
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(new MessageResponse("Admin Credentials Required!!!"));
+
 		try {
 			Product product = productService.saveProductToDb(newProduct);
 			return ResponseEntity.ok(product);
@@ -53,32 +55,35 @@ public class AdminController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Product adding Failed!!!"));
 		}
 	}
-	
+
 	@PostMapping("/addImage/{productId}")
-	public ResponseEntity<?> addImageToProduct(@RequestHeader String authorization,@PathVariable String productId,@RequestBody MultipartFile image){
+	public ResponseEntity<?> addImageToProduct(@RequestHeader String authorization, @PathVariable String productId,
+			@RequestBody MultipartFile image) {
 		String token = jwtUtils.getTokenFromHeader(authorization);
 		String adminEmail = jwtUtils.getUserNameFromJwtToken(token);
 		User userAdmin = userService.getByEmail(adminEmail);
-		if(!userAdmin.getRoles().contains(roleService.getByName(ERole.ROLE_ADMIN)))
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Admin Credentials Required!!!"));
-		
+		if (!userAdmin.getRoles().contains(roleService.getByName(ERole.ROLE_ADMIN)))
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(new MessageResponse("Admin Credentials Required!!!"));
+
 		try {
-			Product p = productService.addImage(productId,image);
-			
+			Product p = productService.addImage(productId, image);
+
 			return ResponseEntity.ok(p);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Image adding Failed!!!"));
 		}
 	}
-	
+
 	@PostMapping("/makeAdmin")
-	public ResponseEntity<?> makeAdmin(@RequestHeader String authorization,@RequestBody String email) {
+	public ResponseEntity<?> makeAdmin(@RequestHeader String authorization, @RequestBody String email) {
 		String token = jwtUtils.getTokenFromHeader(authorization);
 		String adminEmail = jwtUtils.getUserNameFromJwtToken(token);
 		User userAdmin = userService.getByEmail(adminEmail);
-		if(!userAdmin.getRoles().contains(roleService.getByName(ERole.ROLE_ADMIN)))
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Admin Credentials Required!!!"));
-		User user=userService.getByEmail(email);
+		if (!userAdmin.getRoles().contains(roleService.getByName(ERole.ROLE_ADMIN)))
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(new MessageResponse("Admin Credentials Required!!!"));
+		User user = userService.getByEmail(email);
 		user.getRoles().add(roleService.getByName(ERole.ROLE_ADMIN));
 		return ResponseEntity.ok(userService.saveUser(user));
 	}
