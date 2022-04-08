@@ -158,6 +158,16 @@ public class ProductServiceImplementation implements IProductService {
                 productList.add(new ProductDetailsRequest(p.getId(), p.getName(), p.getImage(), p.getPrice()));
             }
         }
-        return new PageImpl<>(productList, pageable, productList.size());
+        int fromIndex = pageable.getPageNumber() * pageable.getPageSize();
+        int toIndex = (pageable.getPageNumber() + 1) * pageable.getPageSize();
+        
+        List<ProductDetailsRequest> subList = new ArrayList<>();
+        
+        if(toIndex > productList.size())
+            toIndex = productList.size();
+        
+        if(fromIndex < productList.size())
+            subList = productList.subList(fromIndex, toIndex);
+        return new PageImpl<>(subList, pageable, productList.size());
     }
 }
