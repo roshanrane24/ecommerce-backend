@@ -21,8 +21,6 @@ import com.ecommerce.app.repository.UserRepository;
 @Service
 @Transactional
 public class OrderServiceImplementation implements IOrderService {
-
-	private final double taxPercentage = 10;
 	
 	@Autowired
 	UserRepository userRepository;
@@ -46,7 +44,7 @@ public class OrderServiceImplementation implements IOrderService {
 		for(ShoppingCartProductsRequest product : listOfProducts) {
 			amount+=product.getSubTotal();
 		}
-		return amount*(1+(taxPercentage/100));
+		return amount;
 	}
 
 	@Override
