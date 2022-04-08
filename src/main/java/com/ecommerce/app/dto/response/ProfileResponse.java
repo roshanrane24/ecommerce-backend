@@ -12,16 +12,13 @@ public class ProfileResponse {
 	private String lastname;	 
  
 	private String email;	 
-	 
-	private String password;
 
-	public ProfileResponse(String id, String firstname, String lastname, String email, String password) {
+	public ProfileResponse(String id, String firstname, String lastname, String email) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
-		this.password = password;
 	}
 	
 	

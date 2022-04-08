@@ -32,7 +32,7 @@ public class UserServiceImplementation implements IUserService{
 	@Override
 	public ProfileResponse getProfile(User user) {
 		 
-		return new ProfileResponse(user.getId(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPassword());
+		return new ProfileResponse(user.getId(),user.getFirstname(),user.getLastname(),user.getEmail());
 	}
 
 }
