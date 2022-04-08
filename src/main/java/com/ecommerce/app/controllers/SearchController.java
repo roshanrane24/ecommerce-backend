@@ -49,7 +49,7 @@ public class SearchController {
 	public ResponseEntity<?> getProductsByCategory(@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "pageNumber") int pageNumber) {
 		String key = keyword.strip();
-		Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 2);
 		Page<ProductDetailsRequest> products; 
 		if (key.length() == 0) {
 			//products = productService.getAllByQ(pageable);
