@@ -31,12 +31,11 @@ public class ShoppingCartProductsRequest {
 		if (getClass() != obj.getClass())
 			return false;
 		ShoppingCartProductsRequest other = (ShoppingCartProductsRequest) obj;
-		return Objects.equals(id, other.id) && Objects.equals(image, other.image) && Objects.equals(name, other.name)
-				&& Objects.equals(price, other.price);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, image, name, price);
+		return Objects.hash(id);
 	}
 }
