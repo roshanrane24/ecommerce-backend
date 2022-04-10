@@ -84,7 +84,7 @@ public class ProductServiceImplementation implements IProductService {
 			Product p = productRepository.findById(item.getId())
 					.orElseThrow(() -> new RuntimeException("Product by ID " + item.getId() + " not found!!!!"));
 			item.setPrice(p.getPrice());
-			item.setSubTotal(p.getPrice()*p.getQuantity());
+			item.setSubTotal(p.getPrice()*item.getQuantity());
 			if (p.getStock() < item.getQuantity()){
 				item.setIsStockAvailable(false);
 				stock=true;
