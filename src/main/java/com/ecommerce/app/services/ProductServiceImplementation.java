@@ -79,13 +79,16 @@ public class ProductServiceImplementation implements IProductService {
 
 	@Override
 	public boolean stockUnavailable(List<ShoppingCartProductsRequest> itemsList) {
+		boolean stock = false;
 		for (ShoppingCartProductsRequest item : itemsList) {
 			Product p = productRepository.findById(item.getId())
 					.orElseThrow(() -> new RuntimeException("Product by ID " + item.getId() + " not found!!!!"));
-			if (p.getStock() < item.getQuantity())
-				return true;
+			if (p.getStock() < item.getQuantity()){
+				item.setIsStockAvailable(false);
+				stock=true;
+			}
 		}
-		return false;
+		return stock;
 	}
 
 	@Override
