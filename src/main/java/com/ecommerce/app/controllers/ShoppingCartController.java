@@ -39,6 +39,7 @@ public class ShoppingCartController {
 	@GetMapping("/display")
 	public ResponseEntity<?> displayCart(@RequestHeader String authorization) {
 		User user = jwtUtils.getUserFromRequestHeader(authorization);
+		productService.stockUnavailable(user.getShoppingCart());
 		return ResponseEntity.ok(user.getShoppingCart());
 	}
 
