@@ -81,7 +81,7 @@ public class SearchController {
 			int page = products.getNumber() + 1;
 			int pages = products.getTotalPages();
 			Map<String, Object> result = Map.of("page", page, "pages", pages, "products", p);
-			return ResponseEntity.ok(result);
+			return ResponseEntity.ok(result); 
 
 	}
 }
