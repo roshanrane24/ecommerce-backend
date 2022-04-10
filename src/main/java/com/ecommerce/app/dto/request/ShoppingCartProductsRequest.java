@@ -11,6 +11,7 @@ public class ShoppingCartProductsRequest {
 	Double price;
 	Integer quantity = 1;
 	Double subTotal;
+	Boolean isStockAvailable=true;
 
 	public ShoppingCartProductsRequest(String id, String name, String image, Double price, Integer quantity) {
 		this.id = id;
