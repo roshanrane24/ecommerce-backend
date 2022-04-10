@@ -55,7 +55,6 @@ public class ShoppingCartController {
 		if (user.getShoppingCart().contains(cartProduct)) {
 			ShoppingCartProductsRequest existingCartProduct = user.getShoppingCart()
 					.get(user.getShoppingCart().indexOf(cartProduct));
-			existingCartProduct.setPrice(product.getPrice());
 			if (existingCartProduct.getQuantity() >= product.getStock())
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 						.body(new MessageResponse("Cannot add quantity greater than stock available"));
