@@ -29,7 +29,7 @@ public class SearchController {
 	public ResponseEntity<?> getProductsBySubCategory(@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "pageNumber") int pageNumber) {
 		String key = keyword.strip();
-		Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
 		Page<ProductDetailsRequest> products; 
 		if (key.length() == 0) {
 			//products = productService.getAllByQ(pageable);
@@ -49,7 +49,7 @@ public class SearchController {
 	public ResponseEntity<?> getProductsByCategory(@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "pageNumber") int pageNumber) {
 		String key = keyword.strip();
-		Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
 		Page<ProductDetailsRequest> products; 
 		if (key.length() == 0) {
 			//products = productService.getAllByQ(pageable);
@@ -69,7 +69,7 @@ public class SearchController {
 	public ResponseEntity<?> getProductsByQ(@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "pageNumber") int pageNumber) {
 		String key = keyword.strip();
-		Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
 		Page<ProductDetailsRequest> products; 
 		if (key.length() == 0) {
 //			products = productService.getAllByQ(pageable);
@@ -81,7 +81,7 @@ public class SearchController {
 			int page = products.getNumber() + 1;
 			int pages = products.getTotalPages();
 			Map<String, Object> result = Map.of("page", page, "pages", pages, "products", p);
-			return ResponseEntity.ok(result);
+			return ResponseEntity.ok(result); 
 
 	}
 }
