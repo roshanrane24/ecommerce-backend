@@ -4,6 +4,8 @@ pipeline {
     stages {
         stage('Build App') {
             steps {
+                // making sure mvnw is executable
+                sh('chmod +x mvnw')
                 sh('./mvnw package')
             }
         }
