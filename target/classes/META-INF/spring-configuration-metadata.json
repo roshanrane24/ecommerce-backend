@@ -8,6 +8,16 @@
   ],
   "properties": [
     {
+      "name": "ecommerce.app.jwtExpirationMs",
+      "type": "java.lang.String",
+      "description": "A description for 'ecommerce.app.jwtExpirationMs'"
+    },
+    {
+      "name": "ecommerce.app.jwtSecret",
+      "type": "java.lang.String",
+      "description": "A description for 'ecommerce.app.jwtSecret'"
+    },
+    {
       "name": "razorpay.key",
       "type": "java.lang.String",
       "sourceType": "com.ecommerce.app.config.RazorPayClientConfig"

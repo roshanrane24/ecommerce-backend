@@ -11,3 +11,5 @@ public class RazorPayClientConfig {
 	private String key;
 	private String secret;
 }
+
+//Configuration class for Razor Pay Integration
