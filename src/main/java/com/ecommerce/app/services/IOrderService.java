@@ -11,8 +11,6 @@ import com.ecommerce.app.models.User;
 
 public interface IOrderService {
 
-//	Stream<OrderRequest> getLatestOrders();
-
 	Order getOrderByRazorpayId(Set<Order> orderList, String razorpayId);
 
 	Double getOrderAmount(List<ShoppingCartProductsRequest> listOfProducts);
@@ -26,4 +24,6 @@ public interface IOrderService {
 	OrderRequest createNewOrderRequest(NewOrderRequest orderRequest, User user);
 
 	List<Order> getListOfOrder(Set<Order> orderList, String orderId);
+	
+	List<Order> getListOfPlacedOrders();
 }

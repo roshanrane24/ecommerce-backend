@@ -1,5 +1,7 @@
 package com.ecommerce.app.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,9 +29,8 @@ import com.ecommerce.app.services.IUserService;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin("*") /* http://localhost:3000/ */ 
-				  /*Incase if our frontend is running on 3000 port*/ 
-				  /* "*" is used receving requests from all ports*/
+@CrossOrigin("*")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
 	@Autowired
@@ -47,7 +48,7 @@ public class AdminController {
 	@Autowired
 	JwtUtils jwtUtils;
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//Add Product
 	@PostMapping("/add-product")
 	public ResponseEntity<?> addNewProducts(@RequestBody AddNewProduct newProduct) {
 		try {
@@ -58,7 +59,7 @@ public class AdminController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//Add Image to specific product
 	@PostMapping("/add-image/{productId}")
 	public ResponseEntity<?> addImageToProduct(@PathVariable String productId, @RequestBody MultipartFile image) {
 		try {
@@ -69,8 +70,14 @@ public class AdminController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Image adding Failed!!!"));
 		}
 	}
+	
+	//Display all placed orders to admin
+	@GetMapping("/display-placed-orders")
+	public ResponseEntity<?> getLatestOrders(){
+        List<Order> orders = orderService.getListOfPlacedOrders();
+        return ResponseEntity.ok(orders);
+    }
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/make-admin")
 	public ResponseEntity<?> makeAdmin(@RequestBody String email) {
 		User user = userService.getByEmail(email);
@@ -78,7 +85,6 @@ public class AdminController {
 		return ResponseEntity.ok(userService.saveUser(user));
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/change-order-status/{orderId}")
 	public ResponseEntity<?> changeOrderStatus(@PathVariable String orderId){
 		Order order;

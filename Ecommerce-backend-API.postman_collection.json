@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0e59cab2-2a99-4541-8ba7-2a4b26eb9958",
+		"_postman_id": "8663da32-24a9-4e74-acda-3d132d4ffe99",
 		"name": "Ecommerce-backend-API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1019,6 +1019,46 @@
 						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Order Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2NDk5NDQyNTQsImV4cCI6MTY1MjUzNjI1NH0.OGciTB_3Tn8Jww68NrZpfPJVL5nfz4z4s9-J4Dk6hu0ADjzbJ7KWxsiwPxJLqU3-YBk8_X5gf3lZ5yeFZ7lT3Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/admin/change-order-status/6258276d22794e2c900db3b3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"change-order-status",
+						"6258276d22794e2c900db3b3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Display All Placed Orders",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}

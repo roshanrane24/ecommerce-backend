@@ -24,8 +24,6 @@ public interface ProductRepository extends MongoRepository<Product,String>{
             fields = "{ _id: 1 , name: 1, image: 1, price:1 }")
     Stream<ProductDetailsRequest> getMostVisitedProducts();
     
-    
-    
     @Query(value = "{name: {$regex: ?0, $options: 'i'}}",
     		sort="{product_added_date : -1}",
     		 fields = "{ _id: 1 , name: 1, image: 1, price:1 }")

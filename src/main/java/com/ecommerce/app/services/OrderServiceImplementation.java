@@ -3,6 +3,8 @@ package com.ecommerce.app.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import com.ecommerce.app.dto.request.OrderRequest;
 import com.ecommerce.app.dto.request.ProductRequest;
 import com.ecommerce.app.dto.request.ShoppingCartProductsRequest;
 import com.ecommerce.app.models.Order;
+import com.ecommerce.app.models.OrderStatus;
 import com.ecommerce.app.models.User;
 import com.ecommerce.app.repository.OrderRepository;
 import com.ecommerce.app.repository.UserRepository;
@@ -30,12 +33,6 @@ public class OrderServiceImplementation implements IOrderService {
 	@Autowired
 	IProductService productService;
 
-//	@Override
-//	public Stream<OrderRequest> getLatestOrders() {
-//		
-//		return orderRepository.getLatestOrders();
-//	}
-//	
 	@Override
 	public Double getOrderAmount(List<ShoppingCartProductsRequest> listOfProducts) {
 		Double amount = 0.0;
@@ -97,6 +94,22 @@ public class OrderServiceImplementation implements IOrderService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public List<Order> getListOfPlacedOrders() {
+		List<Order> orders;
+		List<Order> placedOrders = new ArrayList<>();
+		try(Stream<Order> stream = orderRepository.getAllOrders()) {
+          orders = stream.collect(Collectors.toList());
+        }
+		
+		for (Order order : orders) {
+			if (order.getOrderStatus() == OrderStatus.PLACED) {
+				placedOrders.add(order);
+			}
+		}
+		return placedOrders;
 	}
 
 }

@@ -87,16 +87,6 @@ public class OrderController {
 		this.razorPayClientConfig = razorpayClientConfig;
 		this.client = new RazorpayClient(razorpayClientConfig.getKey(), razorpayClientConfig.getSecret());
 	}
-//	//For Admin
-//	@GetMapping("/admin/display")
-//	public ResponseEntity<?> getLatestOrders(){
-//		//Need to create check for admin users
-//        List<OrderRequest> orders;
-//        try(Stream<OrderRequest> stream = orderService.getLatestOrders()) {
-//            orders = stream.collect(Collectors.toList());
-//        }
-//        return ResponseEntity.ok(orders);
-//    }
 
 	// For User
 	@GetMapping("/display")
