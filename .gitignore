@@ -6,4 +6,5 @@ Servers/
 .classpath
 .gitignore
 .project
-.settings/org.eclipse.jdt.apt.core.prefs
+.settings/
+/bin
