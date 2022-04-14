@@ -159,7 +159,9 @@ public class ProductServiceImplementation implements IProductService {
 		Category category = categoryRepository.findByCategoryName(query)
 				.orElseThrow(() -> new RuntimeException("Category by Name " + query + " not found!!!!"));
 		List<String> subCategories = category.getSubCategory();
-		List<Product> products = productRepository.findAll();
+		List<Product> products = productRepository.findAll().stream()
+                .sorted((o1,o2) -> o2.getProduct_added_date().compareTo(o1.getProduct_added_date()))
+                .collect(Collectors.toList());
 		for (Product p : products) {
 			if (subCategories.contains(p.getSubCategoryName())) {
 				productList.add(new ProductDetailsRequest(p.getId(), p.getName(), p.getImage(), p.getPrice()));
