@@ -1,7 +1,7 @@
 <h2>Project Report</h2>
-<img src="./Report_Images/ProjectReport_Group10_page-0001.jpg" width="128"/>
-<img src="./Report_Images/ProjectReport_Group10_page-0002.jpg" width="128"/>
-<img src="./Report_Images/ProjectReport_Group10_page-0003.jpg" width="128"/>
+<img src="./Report_Images/ProjectReport_Group10_page-0001.jpg"/>
+<img src="./Report_Images/ProjectReport_Group10_page-0002.jpg"/>
+<img src="./Report_Images/ProjectReport_Group10_page-0003.jpg"/>
 <img src="./Report_Images/ProjectReport_Group10_page-0004.jpg" width="128"/>
 <img src="./Report_Images/ProjectReport_Group10_page-0005.jpg" width="128"/>
 <img src="./Report_Images/ProjectReport_Group10_page-0006.jpg" width="128"/>
