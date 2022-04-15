@@ -54,6 +54,9 @@ public class Order implements Serializable {
 	@Field(value = "razorpay_id")
 	private String razorpayOrderId;
 
+	@Field(value = "payment_method")
+	private String paymentMethod;
+
 	public Order(Double orderAmount, List<ShoppingCartProductsRequest> itemList, Address shippingAddress,
 			Address billingAddress) {
 		super();
