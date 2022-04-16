@@ -1,6 +1,16 @@
 pipeline {
     agent any
 
+    environment {
+        EZZY_SSL_PASSWORD = credentials('EZZY_SSL_PASSWORD')
+        MONGO_DATABASE    = credentials('MONGO_DATABASE')
+        MONGO_HOST        = credentials('MONGO_HOST')
+        MONGO_PASSWORD    = credentials('MONGO_PASSWORD')
+        MONGO_USERNAME    = credentials('MONGO_USERNAME')
+        RAZORPAY_KEY      = credentials('RAZORPAY_KEY')
+        RAZORPAY_SECRET   = credentials('RAZORPAY_SECRET')
+    }
+
     stages {
         stage('Build App') {
             steps {
