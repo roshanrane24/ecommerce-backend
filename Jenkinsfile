@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // making sure mvnw is executable
                 sh('chmod +x mvnw')
-                sh('./mvne clean')
+                sh('./mvnw clean')
                 sh('./mvnw package')
             }
         }
