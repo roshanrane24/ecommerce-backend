@@ -30,21 +30,25 @@ public class CategoryController {
 	@Value("${file.upload.location}/category")
 	private String location;
 
+	// List of categories
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllCategory() {
-		System.out.println("in get all categories");
 		return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
 	}
 
-	// http://localhost:8080/api/products/image/1
+	// Serve category image
 	@GetMapping("/image/{categoryId}")
-	// Can be tested with browser. Will work fine with react / angular app.
 	public ResponseEntity<byte[]> getFile(@PathVariable String categoryId) throws IOException {
+		// get category data
 		Category category = categoryService.getCategoryById(categoryId);
+		
+		// Find image for category
 		Path path = Paths.get(location, category.getImageName());
 		byte[] imageData = Files.readAllBytes(path);
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + category.getImageName() + "\"")
+
+
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + category.getImageName() + "\"")
 				.body(imageData);
 	}
 }

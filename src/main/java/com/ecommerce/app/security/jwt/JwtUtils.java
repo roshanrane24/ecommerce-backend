@@ -35,16 +35,17 @@ public class JwtUtils {
 	private long jwtExpirationMs;
 
 	public String generateJwtToken(Authentication authentication, Boolean isRemembered) {
-
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
 		if (!isRemembered) {
-			return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-					.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+			return Jwts.builder().setSubject((userPrincipal.getUsername()))
+					.setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+					.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+		} else {
+			return Jwts.builder().setSubject((userPrincipal.getUsername()))
+					.setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 30))
 					.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 		}
-		return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs * 30))
-				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 	}
 
 	public String getUserNameFromJwtToken(String token) {

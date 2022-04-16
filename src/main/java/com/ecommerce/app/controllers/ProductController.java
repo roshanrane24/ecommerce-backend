@@ -78,43 +78,4 @@ public class ProductController {
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "0.jpg" + "\"")
 				.body(imageData);
 	}
-
-//	@GetMapping
-//	public ResponseEntity<?> getProductsBySubCategory(@RequestParam(value = "keyword") String keyword,
-//			@RequestParam(value = "pageNumber") int pageNumber) {
-//		String key = keyword.strip();
-//		Pageable pageable = PageRequest.of(pageNumber - 1, 8);
-//		Page<ProductDetailsRequest> products; 
-//		if (key.length() == 0) {
-//			//products = productService.getAllByQ(pageable);
-//			return ResponseEntity.ok("");
-//		} else {
-//			 products = productService.getAllBySubCategory(key, pageable);
-//		}
-//			List<ProductDetailsRequest> p = products.getContent();
-//			int page = products.getNumber() + 1;
-//			int pages = products.getTotalPages();
-//			Map<String, Object> result = Map.of("page", page, "pages", pages, "products", p);
-//			return ResponseEntity.ok(result);
-//
-//	}
-//	@GetMapping
-//	public ResponseEntity<?> getProductsByQ(@RequestParam(value = "keyword") String keyword,
-//			@RequestParam(value = "pageNumber") int pageNumber) {
-//		String key = keyword.strip();
-//		Pageable pageable = PageRequest.of(pageNumber - 1, 8);
-//		Page<ProductDetailsRequest> products; 
-//		if (key.length() == 0) {
-////			products = productService.getAllByQ(pageable);
-//			return ResponseEntity.ok("");
-//		} else {
-//			 products = productService.getAllByQ(key, pageable);
-//		}
-//			List<ProductDetailsRequest> p = products.getContent();
-//			int page = products.getNumber() + 1;
-//			int pages = products.getTotalPages();
-//			Map<String, Object> result = Map.of("page", page, "pages", pages, "products", p);
-//			return ResponseEntity.ok(result);
-//
-//	}
 }
