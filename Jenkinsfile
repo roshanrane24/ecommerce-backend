@@ -6,6 +6,7 @@ pipeline {
             steps {
                 // making sure mvnw is executable
                 sh('chmod +x mvnw')
+                sh('./mvne clean')
                 sh('./mvnw package')
             }
         }
@@ -28,7 +29,7 @@ pipeline {
                     } catch (Exception e) {
                         echo 'No previous containers'
                     }
-                    sh('docker run -itd -p 8081:8080 --name ezzy-buy-backend-app ezzy-buy-backend:latest')
+                    sh('docker run --env-file /var/lib/jenkins/secrets/.env -itd -p 8081:8443 --name ezzy-buy-backend-app ezzy-buy-backend:latest')
                 }
             }
         }
